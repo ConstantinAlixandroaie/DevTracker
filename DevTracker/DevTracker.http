@@ -1,0 +1,11 @@
+@DevTracker_HostAddress = http://localhost:5032
+
+GET {{DevTracker_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{DevTracker_HostAddress}}/todos/1
+Accept: application/json
+
+###
