@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36127.28 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11010.61 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.API", "DevTracker\DevTracker.API.csproj", "{8696A233-FC40-4F11-84DC-EA494FA378F0}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.Infrastructure", "DevTracker.Infrastructure\DevTracker.Infrastructure.csproj", "{70CD7AB7-9F80-4D79-9551-C47F2A368A58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.Tests", "DevTracker.Tests\DevTracker.Tests.csproj", "{44FA0E05-4889-4D09-BBDD-FF704FAC7F5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.Data", "DevTracker.Data\DevTracker.Data.csproj", "{C3860676-EFA3-2060-1482-15B87046A857}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{44FA0E05-4889-4D09-BBDD-FF704FAC7F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44FA0E05-4889-4D09-BBDD-FF704FAC7F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44FA0E05-4889-4D09-BBDD-FF704FAC7F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3860676-EFA3-2060-1482-15B87046A857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3860676-EFA3-2060-1482-15B87046A857}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3860676-EFA3-2060-1482-15B87046A857}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3860676-EFA3-2060-1482-15B87046A857}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

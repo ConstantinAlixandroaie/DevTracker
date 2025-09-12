@@ -1,4 +1,7 @@
 using DevTracker.Application.Services;
+using DevTracker.Data;
+using DevTracker.Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevTracker
 {
@@ -7,12 +10,14 @@ namespace DevTracker
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateSlimBuilder(args);
-
+            var configuration = builder.Configuration;
             builder.Services.AddScoped<ITaskItemService, TaskItemService>();
             builder.Services.AddScoped<INoteService, NoteService>();
             builder.Services.AddOpenApi();
             builder.Services.AddControllers();
-
+            builder.Services.AddDbContext<DevTrackerContext>(options =>
+                        options.UseSqlServer(configuration.GetConnectionString("DefaultCOnnection")));
+                    
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())

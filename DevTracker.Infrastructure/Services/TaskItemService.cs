@@ -1,6 +1,7 @@
-﻿using DevTracker.Domain.Enums;
+﻿using DevTracker.Application.Services;
+using DevTracker.Domain.Enums;
 
-namespace DevTracker.Application.Services
+namespace DevTracker.Infrastructure.Services
 {
     public class TaskItemService : ITaskItemService
     {
