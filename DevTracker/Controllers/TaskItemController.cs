@@ -7,18 +7,21 @@ namespace DevTracker.API.Controllers
     public class TaskItemController : ControllerBase
     {
         [HttpGet]
+        [Route("GetTasks")]
         public IActionResult GetTasks()
         {
             return Ok("You got tasks!");
         }
 
         [HttpPost]
+        [Route("AddTask")]
         public IActionResult AddTask()
         {
             return Ok("You added a task!");
         }
 
         [HttpPut]
+        [Route("UpdateStatus")]
         public IActionResult UpdateTaksStatus()
         {
             return Ok("You updated a task Status!");
