@@ -2,7 +2,7 @@
 
 namespace DevTracker.Tests.Domain
 {
-    public class Note_Tests
+    public class NoteTests
     {
         [Fact]
         public void CreateNote_WithEmptyStringContent_ExpectArgumentNullException()

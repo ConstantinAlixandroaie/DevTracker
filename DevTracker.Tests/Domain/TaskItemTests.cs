@@ -2,7 +2,7 @@ using DevTracker.Domain.Models;
 
 namespace DevTracker.Tests.Domain
 {
-    public class TaskItem_Tests
+    public class TaskItemTests
     {
         [Fact]
         public void CreateTaskItem_WithNoTitle_ExpectArgumentNullException()
@@ -12,7 +12,7 @@ namespace DevTracker.Tests.Domain
             //Act
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() => new TaskItem(null, new List<string>()));
+            Assert.Throws<ArgumentNullException>(() => new TaskItem(null!, new List<string>()));
         }
 
         [Fact]
