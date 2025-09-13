@@ -5,7 +5,6 @@ using DevTracker.Domain.DTOs;
 using DevTracker.Domain.IRepositories;
 using DevTracker.Domain.Models;
 using NSubstitute;
-using System.ComponentModel.DataAnnotations;
 
 namespace DevTracker.Tests.Application.TaskItemServiceTests;
 
