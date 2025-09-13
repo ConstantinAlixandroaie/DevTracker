@@ -1,6 +1,4 @@
-﻿using DevTracker.Data.Validators;
-
-namespace DevTracker.Tests.Application.TaskItemServiceTests;
+﻿namespace DevTracker.Tests.Application.TaskItemServiceTests;
 
 public class CreateTaskItemTests : TaskItemTestsBase
 {

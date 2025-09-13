@@ -4,7 +4,6 @@ using DevTracker.Domain.DTOs;
 using DevTracker.Domain.Enums;
 using DevTracker.Domain.IRepositories;
 using DevTracker.Domain.Models;
-using FluentValidation;
 
 namespace DevTracker.Data.Services;
 
