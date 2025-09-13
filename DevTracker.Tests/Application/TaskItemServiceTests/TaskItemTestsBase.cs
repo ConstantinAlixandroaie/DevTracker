@@ -3,34 +3,26 @@ using DevTracker.Data.Services;
 using DevTracker.Data.Validators;
 using DevTracker.Domain.DTOs;
 using DevTracker.Domain.IRepositories;
-using DevTracker.Domain.Models;
 using NSubstitute;
 
 namespace DevTracker.Tests.Application.TaskItemServiceTests;
 
-public class TaskItemTestsBase : IDisposable
+public abstract class TaskItemTestsBase : IDisposable
 {
+    protected CreateTaskItemRequest CreateTaskItemRequest;
+    protected ITaskItemRepository _taskItemRepository = Substitute.For<ITaskItemRepository>();
+    protected static CreateTaskItemRequestValidator _validator = new();
     protected ITaskItemService _sut;
-    protected ITaskItemRepository _iTaskItemRepository = Substitute.For<ITaskItemRepository>();
-    protected CreateTaskItemRequest _createTaskItemRequest;
-    protected CreateTaskItemRequestValidator _validator  = new CreateTaskItemRequestValidator();
+
     protected TaskItemTestsBase()
     {
-        _sut = Substitute.For<TaskItemService>(Substitute.For<ITaskItemRepository>(), _validator);
-    }
+        _sut = Substitute.For<TaskItemService>(_taskItemRepository, _validator);
 
+    }
     public void Dispose()
     {
 
     }
 
-    protected void Setup(string taskItemTitle)
-    {
-        _createTaskItemRequest = new CreateTaskItemRequest
-        {
-            TaskItemTitle = taskItemTitle
-        };
-
-        _sut.GetTaskItemsAsync().Returns([new TaskItem { Title = taskItemTitle }]);
-    }
+    protected abstract void Setup(string title);
 }

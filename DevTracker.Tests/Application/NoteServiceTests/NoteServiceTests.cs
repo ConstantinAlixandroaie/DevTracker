@@ -1,7 +1,7 @@
 ﻿using DevTracker.Application.Services;
 using NSubstitute;
 
-namespace DevTracker.Tests.Application;
+namespace DevTracker.Tests.Application.NoteServiceTests;
 
 public class NoteServiceTests
 {

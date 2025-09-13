@@ -21,12 +21,11 @@ public class TaskItemService : ITaskItemService
     public async Task CreateTaskItemAsync(CreateTaskItemRequest createTaskItemRequest)
     {
         var response =_validator.Validate(createTaskItemRequest);
-        if (!response.IsValid)
-        {
-            throw new ArgumentNullException(nameof(createTaskItemRequest.TaskItemTitle));
-        }
 
-        await _taskItemRepo.CreateTaskItemAsync(createTaskItemRequest.TaskItemTitle);
+        if (response.IsValid)
+        {
+            await _taskItemRepo.CreateTaskItemAsync(createTaskItemRequest.TaskItemTitle);
+        }
     }
 
     public async Task DeleteTaskItemAsync(Guid taskItemId)

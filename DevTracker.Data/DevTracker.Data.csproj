@@ -17,4 +17,8 @@
     <ProjectReference Include="..\DevTracker.Domain\DevTracker.Domain.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="DevTracker.Tests" />
+	</ItemGroup>
+
 </Project>
