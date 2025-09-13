@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DevTracker.Data\DevTracker.Data.csproj" />
-    <ProjectReference Include="..\DevTracker.Infrastructure\DevTracker.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

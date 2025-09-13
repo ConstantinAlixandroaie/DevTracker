@@ -1,9 +1,8 @@
-﻿namespace DevTracker.Domain.Enums
+﻿namespace DevTracker.Domain.Enums;
+
+public enum Status
 {
-    public enum Status
-    {
-        ToDo,
-        InProgress,
-        Done
-    }
+    ToDo,
+    InProgress,
+    Done
 }

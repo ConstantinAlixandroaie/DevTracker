@@ -1,30 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace DevTracker.API.Controllers
+namespace DevTracker.API.Controllers;
+
+[Route("api/v1/[controller]")]
+[ApiController]
+public class TaskItemController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TaskItemController : ControllerBase
+    [HttpGet]
+    [Route("GetTasks")]
+    public IActionResult GetTasks()
     {
-        [HttpGet]
-        [Route("GetTasks")]
-        public IActionResult GetTasks()
-        {
-            return Ok("You got tasks!");
-        }
+        return Ok("You got tasks!");
+    }
 
-        [HttpPost]
-        [Route("AddTask")]
-        public IActionResult AddTask()
-        {
-            return Ok("You added a task!");
-        }
+    [HttpPost]
+    [Route("AddTask")]
+    public IActionResult AddTask()
+    {
+        return Ok("You added a task!");
+    }
 
-        [HttpPut]
-        [Route("UpdateStatus")]
-        public IActionResult UpdateTaksStatus()
-        {
-            return Ok("You updated a task Status!");
-        }
+    [HttpPut]
+    [Route("UpdateStatus")]
+    public IActionResult UpdateTaksStatus()
+    {
+        return Ok("You updated a task Status!");
     }
 }

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="DevTracker.Application/DevTracker.Application.csproj" />
+  <Project Path="DevTracker.Data/DevTracker.Data.csproj" />
+  <Project Path="DevTracker.Domain/DevTracker.Domain.csproj" />
+  <Project Path="DevTracker.Tests/DevTracker.Tests.csproj" />
+  <Project Path="DevTracker/DevTracker.API.csproj" />
+</Solution>

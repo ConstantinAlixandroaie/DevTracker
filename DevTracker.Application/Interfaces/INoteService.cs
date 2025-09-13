@@ -1,7 +1,6 @@
-﻿namespace DevTracker.Application.Services
+﻿namespace DevTracker.Application.Services;
+
+public interface INoteService
 {
-    public interface INoteService
-    {
-        Task<bool> AddNote(string content);
-    }
+    Task<bool> AddNoteAsync(string content);
 }
