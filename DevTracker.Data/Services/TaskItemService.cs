@@ -1,22 +1,47 @@
 ﻿using DevTracker.Application.Services;
+using DevTracker.Data.Validators;
+using DevTracker.Domain.DTOs;
 using DevTracker.Domain.Enums;
+using DevTracker.Domain.IRepositories;
+using DevTracker.Domain.Models;
+using FluentValidation;
 
 namespace DevTracker.Data.Services;
 
 public class TaskItemService : ITaskItemService
 {
-    public Task<bool> CreateTaskItemAsync(string title)
+    private readonly ITaskItemRepository _taskItemRepo;
+    private readonly CreateTaskItemRequestValidator _validator;
+
+    public TaskItemService(ITaskItemRepository taskItemRepo, CreateTaskItemRequestValidator validator)
     {
-        throw new NotImplementedException();
+        _taskItemRepo = taskItemRepo;
+        _validator = validator;
     }
 
-    public Task DeleteTaskItemAsync(Guid taskItemId)
+    public async Task CreateTaskItemAsync(CreateTaskItemRequest createTaskItemRequest)
     {
-        throw new NotImplementedException();
+        var response =_validator.Validate(createTaskItemRequest);
+        if (!response.IsValid)
+        {
+            throw new ArgumentNullException(nameof(createTaskItemRequest.TaskItemTitle));
+        }
+
+        await _taskItemRepo.CreateTaskItemAsync(createTaskItemRequest.TaskItemTitle);
     }
 
-    public Task UpdateTaskStatusAsync(Status status)
+    public async Task DeleteTaskItemAsync(Guid taskItemId)
     {
-        throw new NotImplementedException();
+        await _taskItemRepo.DeleteTaskItemAsync(taskItemId);
+    }
+
+    public async Task<List<TaskItem>> GetTaskItemsAsync()
+    {
+        return await _taskItemRepo.GetTaskItemsAsync();
+    }
+
+    public async Task UpdateTaskStatusAsync(Guid taskItemId, Status status)
+    {
+        await _taskItemRepo.UpdateTaskItemStatusAsync(taskItemId, status);
     }
 }
