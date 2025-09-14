@@ -1,8 +1,8 @@
 using DevTracker.Application.Interfaces;
 using DevTracker.Application.Services;
+using DevTracker.Application.Validators;
 using DevTracker.Data;
 using DevTracker.Data.Repositories;
-using DevTracker.Data.Validators;
 using DevTracker.Domain.IRepositories;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;

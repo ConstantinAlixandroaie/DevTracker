@@ -1,7 +1,7 @@
 ﻿using DevTracker.Domain.DTOs;
 using FluentValidation;
 
-namespace DevTracker.Data.Validators;
+namespace DevTracker.Application.Validators;
 
 public class CreateTaskItemRequestValidator : AbstractValidator<CreateTaskItemRequest>
 {

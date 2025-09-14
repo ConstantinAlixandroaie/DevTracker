@@ -1,5 +1,5 @@
 ﻿using DevTracker.Application.Interfaces;
-using DevTracker.Data.Validators;
+using DevTracker.Application.Validators;
 using DevTracker.Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
