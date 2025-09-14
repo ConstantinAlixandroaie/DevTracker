@@ -5,8 +5,8 @@ namespace DevTracker.Application.Interfaces;
 
 public interface ITaskItemService
 {
-    Task CreateTaskItemAsync(CreateTaskItemRequest createTaskItemRequest);
-    Task<List<TaskItem>> GetTaskItemsAsync();
-    Task DeleteTaskItemAsync(long taskItemId);
-    Task UpdateTaskStatusAsync(UpdateTaskItemRequest request);
+    Task<CreateTaskItemResponse> CreateTaskItemAsync(CreateTaskItemRequest createTaskItemRequest);
+    Task<IEnumerable<TaskItem>> GetTaskItemsAsync();
+    Task<DeleteTaskItemResponse> DeleteTaskItemAsync(long taskItemId);
+    Task<UpdateTaskItemResponse> UpdateTaskStatusAsync(UpdateTaskItemRequest request);
 }

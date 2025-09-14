@@ -1,4 +1,5 @@
 ﻿using DevTracker.Domain.DTOs;
+using DevTracker.Domain.Enums;
 using FluentValidation;
 
 namespace DevTracker.Application.Validators;
@@ -8,6 +9,6 @@ public class UpdateTaskItemRequestValidator : AbstractValidator<UpdateTaskItemRe
     public UpdateTaskItemRequestValidator()
     {
         RuleFor(x => x.TaskId).NotEqual(0);
-        RuleFor(x => x.Status).IsInEnum();
+        RuleFor(x => x.Status).NotEqual(Status.None);
     }
 }

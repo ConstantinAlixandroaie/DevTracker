@@ -14,23 +14,23 @@ public class TaskItemService : ITaskItemService
         _taskItemRepo = taskItemRepo;
     }
 
-    public async Task CreateTaskItemAsync(CreateTaskItemRequest createTaskItemRequest)
+    public async Task<CreateTaskItemResponse> CreateTaskItemAsync(CreateTaskItemRequest createTaskItemRequest)
     {
-        await _taskItemRepo.CreateTaskItemAsync(createTaskItemRequest.TaskItemTitle);
+        return await _taskItemRepo.CreateTaskItemAsync(createTaskItemRequest.TaskItemTitle);
     }
 
-    public async Task DeleteTaskItemAsync(long taskItemId)
+    public async Task<DeleteTaskItemResponse> DeleteTaskItemAsync(long taskItemId)
     {
-        await _taskItemRepo.DeleteTaskItemAsync(taskItemId);
+        return await _taskItemRepo.DeleteTaskItemAsync(taskItemId);
     }
 
-    public async Task<List<TaskItem>> GetTaskItemsAsync()
+    public async Task<IEnumerable<TaskItem>> GetTaskItemsAsync()
     {
         return await _taskItemRepo.GetTaskItemsAsync();
     }
 
-    public async Task UpdateTaskStatusAsync(UpdateTaskItemRequest request)
+    public async Task<UpdateTaskItemResponse> UpdateTaskStatusAsync(UpdateTaskItemRequest request)
     {
-        await _taskItemRepo.UpdateTaskItemStatusAsync(request.TaskId, request.Status);
+       return await _taskItemRepo.UpdateTaskItemStatusAsync(request.TaskId, request.Status);
     }
 }
