@@ -1,8 +1,11 @@
-﻿namespace DevTracker.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DevTracker.Domain.Models;
 
 public class Note
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
+    [Key]
+    public long Id { get; private set; }
     public string? Content { get; private set; }
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; private set; } = null;

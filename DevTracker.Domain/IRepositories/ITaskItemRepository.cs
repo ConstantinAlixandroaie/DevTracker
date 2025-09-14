@@ -6,7 +6,7 @@ namespace DevTracker.Domain.IRepositories;
 public interface ITaskItemRepository
 {
     Task CreateTaskItemAsync(string taskItemTitle);
-    Task DeleteTaskItemAsync(Guid taskItemId);
-    Task UpdateTaskItemStatusAsync(Guid taskItemId,Status status);
+    Task DeleteTaskItemAsync(long taskItemId);
+    Task UpdateTaskItemStatusAsync(long taskItemId,Status status);
     Task<List<TaskItem>> GetTaskItemsAsync();
 }

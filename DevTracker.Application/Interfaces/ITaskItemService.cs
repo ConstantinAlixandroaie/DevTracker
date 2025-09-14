@@ -1,13 +1,12 @@
 ﻿using DevTracker.Domain.DTOs;
-using DevTracker.Domain.Enums;
 using DevTracker.Domain.Models;
 
-namespace DevTracker.Application.Services;
+namespace DevTracker.Application.Interfaces;
 
 public interface ITaskItemService
 {
     Task CreateTaskItemAsync(CreateTaskItemRequest createTaskItemRequest);
     Task<List<TaskItem>> GetTaskItemsAsync();
-    Task DeleteTaskItemAsync(Guid taskItemId);
-    Task UpdateTaskStatusAsync(Guid taskItemId, Status status);
+    Task DeleteTaskItemAsync(long taskItemId);
+    Task UpdateTaskStatusAsync(UpdateTaskItemRequest request);
 }

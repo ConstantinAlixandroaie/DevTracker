@@ -6,6 +6,7 @@ namespace DevTracker.Tests.Application.NoteServiceTests;
 public class NoteServiceTests
 {
     public INoteService _noteServiceMock = Substitute.For<INoteService>();
+
     [Fact]
     public async Task CreateNote_WithEmptyStringContent_ExpectArgumentNullException()
     {

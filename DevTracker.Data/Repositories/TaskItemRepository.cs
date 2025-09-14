@@ -20,7 +20,7 @@ internal class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository>
         await _ctx.SaveChangesAsync();
     }
 
-    public async Task DeleteTaskItemAsync(Guid taskItemId)
+    public async Task DeleteTaskItemAsync(long taskItemId)
     {
         var taskItem = _ctx.TaskItems.FirstOrDefault(taskItem => taskItem.Id == taskItemId);
         if (taskItem == null)
@@ -38,7 +38,7 @@ internal class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository>
         return await _ctx.TaskItems.ToListAsync();
     }
 
-    public async Task UpdateTaskItemStatusAsync(Guid taskItemId, Status status)
+    public async Task UpdateTaskItemStatusAsync(long taskItemId, Status status)
     {
         var taskItem = _ctx.TaskItems.FirstOrDefault(item => item.Id == taskItemId);
         if (taskItem is null)

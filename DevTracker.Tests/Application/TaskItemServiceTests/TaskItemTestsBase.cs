@@ -1,4 +1,4 @@
-﻿using DevTracker.Application.Services;
+﻿using DevTracker.Application.Interfaces;
 using DevTracker.Data.Services;
 using DevTracker.Data.Validators;
 using DevTracker.Domain.DTOs;
@@ -10,19 +10,19 @@ namespace DevTracker.Tests.Application.TaskItemServiceTests;
 public abstract class TaskItemTestsBase : IDisposable
 {
     protected CreateTaskItemRequest CreateTaskItemRequest;
+    protected int CallsToItaskItemRepository;
     protected ITaskItemRepository _taskItemRepository = Substitute.For<ITaskItemRepository>();
-    protected static CreateTaskItemRequestValidator _validator = new();
+    protected static CreateTaskItemRequestValidator _createTaskItemRequestValidator = new();
+    protected static UpdateTaskItemRequestValidator _updateTaskItemRequestValidator = new();
     protected ITaskItemService _sut;
 
     protected TaskItemTestsBase()
     {
-        _sut = Substitute.For<TaskItemService>(_taskItemRepository, _validator);
+        _sut = Substitute.For<TaskItemService>(_taskItemRepository, _createTaskItemRequestValidator, _updateTaskItemRequestValidator);
 
     }
     public void Dispose()
     {
 
     }
-
-    protected abstract void Setup(string title);
 }
