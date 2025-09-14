@@ -1,4 +1,4 @@
-﻿using DevTracker.Application.Services;
+﻿using DevTracker.Application.Interfaces;
 using NSubstitute;
 
 namespace DevTracker.Tests.Application.NoteServiceTests;
@@ -36,9 +36,8 @@ public class NoteServiceTests
         const string noteContent = "Create Initial Note Test";
 
         //Act
-        var result = await _noteServiceMock.AddNoteAsync(noteContent);
+        await _noteServiceMock.AddNoteAsync(noteContent);
 
         //Assert
-        Assert.True(result);
     }
 }

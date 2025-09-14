@@ -5,7 +5,7 @@ namespace DevTracker.Data.Validators;
 
 public class CreateTaskItemRequestValidator : AbstractValidator<CreateTaskItemRequest>
 {
-    internal CreateTaskItemRequestValidator()
+    public CreateTaskItemRequestValidator()
     {
         RuleFor(x => x.TaskItemTitle).NotNull().NotEmpty();
     }

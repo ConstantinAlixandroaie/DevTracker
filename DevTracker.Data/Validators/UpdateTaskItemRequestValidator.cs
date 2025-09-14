@@ -1,5 +1,4 @@
 ﻿using DevTracker.Domain.DTOs;
-using DevTracker.Domain.Enums;
 using FluentValidation;
 
 namespace DevTracker.Data.Validators;

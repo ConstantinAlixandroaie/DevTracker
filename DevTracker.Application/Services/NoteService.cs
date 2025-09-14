@@ -1,6 +1,6 @@
-﻿using DevTracker.Application.Services;
+﻿using DevTracker.Application.Interfaces;
 
-namespace DevTracker.Data.Services;
+namespace DevTracker.Application.Services;
 
 public class NoteService : INoteService
 {

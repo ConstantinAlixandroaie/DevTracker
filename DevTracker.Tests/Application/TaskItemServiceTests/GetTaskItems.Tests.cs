@@ -1,5 +1,4 @@
 ﻿using NSubstitute;
-using System.Threading.Tasks;
 
 namespace DevTracker.Tests.Application.TaskItemServiceTests;
 
@@ -10,6 +9,7 @@ public class GetTaskItemsTest : TaskItemTestsBase
     {
         //Arrange
         CallsToItaskItemRepository = 1;
+
         //Act
         await _sut.GetTaskItemsAsync();
 

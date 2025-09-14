@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DevTracker.Data.Repositories;
 
-internal class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> logger) : BaseRepository(ctx, logger), ITaskItemRepository
+public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> logger) : BaseRepository(ctx, logger), ITaskItemRepository
 {
     public async Task CreateTaskItemAsync(string taskItemTitle)
     {

@@ -2,7 +2,7 @@
 
 namespace DevTracker.Data.Repositories;
 
-internal class BaseRepository
+public class BaseRepository
 {
     protected DevTrackerContext _ctx;
     protected readonly ILogger _logger;

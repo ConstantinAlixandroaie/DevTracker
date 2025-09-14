@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DevTracker.Application.Interfaces;
+using DevTracker.Data.Validators;
+using DevTracker.Domain.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DevTracker.API.Controllers;
 
@@ -6,24 +9,68 @@ namespace DevTracker.API.Controllers;
 [ApiController]
 public class TaskItemController : ControllerBase
 {
+    private readonly ITaskItemService _taskItemService;
+    private readonly CreateTaskItemRequestValidator _createRequestvalidator;
+    private readonly UpdateTaskItemRequestValidator _updateRequestvalidator;
+
+    public TaskItemController(ITaskItemService taskItemService,
+        CreateTaskItemRequestValidator createRequestvalidator,
+        UpdateTaskItemRequestValidator updateRequestvalidator)
+    {
+        _taskItemService = taskItemService;
+        _createRequestvalidator = createRequestvalidator;
+        _updateRequestvalidator = updateRequestvalidator;
+    }
+
     [HttpGet]
     [Route("GetTasks")]
-    public IActionResult GetTasks()
+    public async Task<IActionResult> GetTasks()
     {
-        return Ok("You got tasks!");
+        var response = await _taskItemService.GetTaskItemsAsync();
+        return Ok(response);
     }
 
     [HttpPost]
     [Route("AddTask")]
-    public IActionResult AddTask()
+    public async Task<IActionResult> AddTask([FromBody] CreateTaskItemRequest createTaskItemRequest)
     {
+        var validationResponse = _createRequestvalidator.Validate(createTaskItemRequest);
+
+        if (!validationResponse.IsValid)
+        {
+            return BadRequest(validationResponse.Errors.ToString());
+        }
+
+        await _taskItemService.CreateTaskItemAsync(createTaskItemRequest);
         return Ok("You added a task!");
     }
 
     [HttpPut]
     [Route("UpdateStatus")]
-    public IActionResult UpdateTaksStatus()
+    public async Task<IActionResult> UpdateTaksStatus([FromBody] UpdateTaskItemRequest updateTaskItemRequest)
     {
+        var validationResponse = _updateRequestvalidator.Validate(updateTaskItemRequest);
+
+        if (!validationResponse.IsValid)
+        {
+            return BadRequest(validationResponse.Errors.ToString());
+        }
+
+        await _taskItemService.UpdateTaskStatusAsync(updateTaskItemRequest);
+
         return Ok("You updated a task Status!");
+    }
+
+    [HttpDelete]
+    [Route("DeleteTask")]
+    public async Task<IActionResult> DeleteTask([FromQuery] long taskId)
+    {
+        if (taskId <= 0)
+        {
+            return BadRequest("Task Id not found!");
+        }
+
+        await _taskItemService.DeleteTaskItemAsync(taskId);
+        return Ok("You deleted a task!");
     }
 }

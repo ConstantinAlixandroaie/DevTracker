@@ -1,8 +1,12 @@
 using DevTracker.Application.Interfaces;
 using DevTracker.Application.Services;
 using DevTracker.Data;
-using DevTracker.Data.Services;
+using DevTracker.Data.Repositories;
+using DevTracker.Data.Validators;
+using DevTracker.Domain.IRepositories;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DevTracker.API;
 
@@ -12,13 +16,20 @@ public static class Program
     {
         var builder = WebApplication.CreateSlimBuilder(args);
         var configuration = builder.Configuration;
-        builder.Services.AddScoped<ITaskItemService, TaskItemService>();
-        builder.Services.AddScoped<INoteService, NoteService>();
-        builder.Services.AddOpenApi();
-        builder.Services.AddControllers();
         builder.Services.AddDbContext<DevTrackerContext>(options =>
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-                
+
+        builder.Services.AddScoped<ITaskItemRepository, TaskItemRepository>();
+
+        builder.Services.AddScoped<ITaskItemService, TaskItemService>();
+        builder.Services.AddScoped<INoteService, NoteService>();
+
+        builder.Services.AddValidatorsFromAssemblyContaining<CreateTaskItemRequestValidator>();
+
+
+        builder.Services.AddControllers();
+        builder.Services.AddOpenApi();
+
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
