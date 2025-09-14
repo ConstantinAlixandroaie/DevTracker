@@ -6,18 +6,20 @@ namespace DevTracker.Tests.Application.TaskItemServiceTests;
 
 public class CreateTaskItemTests : TaskItemTestsBase
 {
+    private int _callsToItaskItemREpository;
+
     [Fact]
     public async Task CreateTaskItem_WithEmptyString_ExpectExceptionThrown()
     {
         //Arrange
         Setup(taskItemTitle: "");
-
+        _callsToItaskItemREpository = 0;
         //Act
         await _sut.CreateTaskItemAsync(CreateTaskItemRequest);
 
         //Assert
         Assert.False(_validator.Validate(CreateTaskItemRequest).IsValid);
-        Assert.Empty(_taskItemRepository.ReceivedCalls());
+        Assert.Equal(_callsToItaskItemREpository, _taskItemRepository.ReceivedCalls().Count());
     }
 
     [Fact]
@@ -25,13 +27,14 @@ public class CreateTaskItemTests : TaskItemTestsBase
     {
         //Arrange
         Setup(taskItemTitle: null!);
+        _callsToItaskItemREpository = 0;
 
         //Act
         await _sut.CreateTaskItemAsync(CreateTaskItemRequest);
 
         //Assert
         Assert.False(_validator.Validate(CreateTaskItemRequest).IsValid);
-        Assert.Empty(_taskItemRepository.ReceivedCalls());
+        Assert.Equal(_callsToItaskItemREpository, _taskItemRepository.ReceivedCalls().Count());
     }
 
     [Fact]
@@ -39,14 +42,13 @@ public class CreateTaskItemTests : TaskItemTestsBase
     {
         //Arrange
         Setup(taskItemTitle: "Create Task Item Test");
+        _callsToItaskItemREpository = 1;
+        //Act
         await _sut.CreateTaskItemAsync(CreateTaskItemRequest);
 
-        //Act
-        var taskItems = await _sut.GetTaskItemsAsync();
-
         //Assert
-        Assert.Contains(taskItems, taskItem => taskItem.Title == CreateTaskItemRequest.TaskItemTitle);
-        Assert.Equal(2,_taskItemRepository.ReceivedCalls().Count());
+        Assert.True(_validator.Validate(CreateTaskItemRequest).IsValid);
+        Assert.Equal(_callsToItaskItemREpository, _taskItemRepository.ReceivedCalls().Count());
     }
 
     protected override void Setup(string taskItemTitle)
@@ -55,7 +57,5 @@ public class CreateTaskItemTests : TaskItemTestsBase
         {
             TaskItemTitle = taskItemTitle
         };
-
-        _sut.GetTaskItemsAsync().Returns([new TaskItem { Title = taskItemTitle }]);
     }
 }
