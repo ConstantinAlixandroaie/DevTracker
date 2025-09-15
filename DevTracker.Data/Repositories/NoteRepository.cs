@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DevTracker.Data.Repositories;
 
-internal class NoteRepository : BaseRepository, INoteRepository
+public class NoteRepository : BaseRepository, INoteRepository
 {
     public NoteRepository(DevTrackerContext ctx, ILogger<BaseRepository> logger) : base(ctx, logger)
     {

@@ -1,4 +1,4 @@
-﻿namespace DevTracker.Contracts.Responses;
+﻿namespace DevTracker.Contracts.Responses.TaskItems;
 
 public class UpdateTaskItemResponse : Response
 {

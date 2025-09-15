@@ -1,9 +1,11 @@
-﻿namespace DevTracker.Application.Interfaces;
+﻿using DevTracker.Contracts.Responses.Note;
+
+namespace DevTracker.Application.Interfaces;
 
 public interface INoteService
 {
-    Task AddNoteAsync(string content);
-    Task GetNotesAsync(long taskId);
-    Task UpdateNoteAsync(long noteId, string content);
-    Task DeleteNoteAsync(long noteId);
+    Task<AddNoteReponse> AddNoteAsync(string content);
+    Task<GetNoteResponse> GetNotesAsync(long taskId);
+    Task<UpdateNoteReponse> UpdateNoteAsync(long noteId, string content);
+    Task<DeleteNoteResponse> DeleteNoteAsync(long noteId);
 }

@@ -1,7 +1,8 @@
 ﻿using DevTracker.Application.Interfaces;
 using DevTracker.Contracts;
 using DevTracker.Contracts.Requests;
-using DevTracker.Contracts.Responses;
+using DevTracker.Contracts.Responses.TaskItems;
+using DevTracker.Contracts.Responses.TaskItems;
 using DevTracker.Data.Repositories.Interfaces;
 
 namespace DevTracker.Application.Services;

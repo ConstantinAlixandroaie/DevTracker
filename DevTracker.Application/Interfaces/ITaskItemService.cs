@@ -1,5 +1,6 @@
 ﻿using DevTracker.Contracts.Requests;
-using DevTracker.Contracts.Responses;
+using DevTracker.Contracts.Responses.TaskItems;
+using DevTracker.Contracts.Responses.TaskItems;
 
 namespace DevTracker.Application.Interfaces;
 

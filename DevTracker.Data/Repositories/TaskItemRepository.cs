@@ -24,7 +24,7 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         }
         catch (DbUpdateException ex)
         {
-            return Result<TaskItem>.Failure(ex.Message);
+            return Result<TaskItem>.Failure(ErrorType.Unexpected, ex.Message);
         }
     }
 
@@ -34,7 +34,7 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
 
         if (taskItem == null)
         {
-            return Result<TaskItem>.Failure("The task does not exist.");
+            return Result<TaskItem>.Failure(ErrorType.NotFound, "The task does not exist.");
         }
 
         try
@@ -45,7 +45,7 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         }
         catch (DbUpdateException ex)
         {
-            return Result<TaskItem>.Failure(ex.Message);
+            return Result<TaskItem>.Failure(ErrorType.Unexpected, ex.Message);
         }
     }
 
@@ -58,7 +58,7 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         }
         catch (DbUpdateException ex)
         {
-            return Result<IEnumerable<TaskItem>>.Failure(ex.Message);
+            return Result<IEnumerable<TaskItem>>.Failure(ErrorType.Unexpected, ex.Message);
         }
     }
 
@@ -69,12 +69,12 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         if (taskItem is null)
         {
             _logger.LogError("The task does not exist.");
-            return Result<TaskItem>.Failure("Task Item not found");
+            return Result<TaskItem>.Failure(ErrorType.NotFound, "Task Item not found");
         }
 
         if (taskItem.Status == status)
         {
-            return Result<TaskItem>.Failure("Task Item Status not changed.");
+            return Result<TaskItem>.Failure(ErrorType.Conflict,"Task Item Status not changed.");
         }
 
         taskItem.Status = status;
@@ -87,7 +87,7 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         }
         catch (DbUpdateException ex)
         {
-            return Result<TaskItem>.Failure(ex.Message);
+            return Result<TaskItem>.Failure(ErrorType.Unexpected, ex.Message);
         }
     }
 }

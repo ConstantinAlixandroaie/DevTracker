@@ -1,6 +1,6 @@
 ﻿using DevTracker.Data.Models;
 
-namespace DevTracker.Contracts.Responses;
+namespace DevTracker.Contracts.Responses.TaskItems;
 
 public class GetTaskItemsResponse : Response
 {
