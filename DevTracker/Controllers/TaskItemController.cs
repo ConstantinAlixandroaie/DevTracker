@@ -1,5 +1,4 @@
 ﻿using DevTracker.Application.Interfaces;
-using DevTracker.Application.Validators;
 using DevTracker.Contracts;
 using DevTracker.Contracts.Requests;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +10,10 @@ namespace DevTracker.API.Controllers;
 public class TaskItemController : ControllerBase
 {
     private readonly ITaskItemService _taskItemService;
-    private readonly CreateTaskItemRequestValidator _createRequestvalidator;
-    private readonly UpdateTaskItemRequestValidator _updateRequestvalidator;
 
-    public TaskItemController(ITaskItemService taskItemService,
-        CreateTaskItemRequestValidator createRequestvalidator,
-        UpdateTaskItemRequestValidator updateRequestvalidator)
+    public TaskItemController(ITaskItemService taskItemService)
     {
         _taskItemService = taskItemService;
-        _createRequestvalidator = createRequestvalidator;
-        _updateRequestvalidator = updateRequestvalidator;
     }
 
     [HttpGet]
@@ -35,13 +28,6 @@ public class TaskItemController : ControllerBase
     [Route("AddTask")]
     public async Task<IActionResult> AddTask([FromBody] CreateTaskItemRequest createTaskItemRequest)
     {
-        var validationResponse = _createRequestvalidator.Validate(createTaskItemRequest);
-
-        if (!validationResponse.IsValid)
-        {
-            return BadRequest(validationResponse.Errors.ToString());
-        }
-
         var response = await _taskItemService.CreateTaskItemAsync(createTaskItemRequest);
 
         if (response.Result != Result.Success)
@@ -49,23 +35,22 @@ public class TaskItemController : ControllerBase
             return Conflict(response.ErrorMessage);
         }
 
-        return Ok("You added a task!");
+        return Ok("Task Created Succesfully!");
     }
 
     [HttpPut]
     [Route("UpdateStatus")]
-    public async Task<IActionResult> UpdateTaksStatus([FromBody] UpdateTaskItemRequest updateTaskItemRequest)
+    public async Task<IActionResult> UpdateTaskStatus([FromBody] UpdateTaskItemRequest updateTaskItemRequest)
     {
-        var validationResponse = _updateRequestvalidator.Validate(updateTaskItemRequest);
 
-        if (!validationResponse.IsValid)
+        var response = await _taskItemService.UpdateTaskStatusAsync(updateTaskItemRequest);
+
+        if (response.Result == Result.Failure)
         {
-            return BadRequest(validationResponse.Errors.ToString());
+            return BadRequest(response.ErrorMessage);
         }
 
-        await _taskItemService.UpdateTaskStatusAsync(updateTaskItemRequest);
-
-        return Ok("You updated a task Status!");
+        return Ok("Task Updated Succesfully!");
     }
 
     [HttpDelete]

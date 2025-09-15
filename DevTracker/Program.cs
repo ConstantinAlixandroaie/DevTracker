@@ -1,6 +1,5 @@
 using DevTracker.Application.Interfaces;
 using DevTracker.Application.Services;
-using DevTracker.Application.Validators;
 using DevTracker.Data;
 using DevTracker.Data.Repositories;
 using DevTracker.Data.Repositories.Interfaces;
@@ -22,9 +21,6 @@ public static class Program
 
         builder.Services.AddScoped<ITaskItemService, TaskItemService>();
         builder.Services.AddScoped<INoteService, NoteService>();
-
-        builder.Services.AddValidatorsFromAssemblyContaining<CreateTaskItemRequestValidator>();
-
 
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();

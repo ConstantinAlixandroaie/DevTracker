@@ -11,8 +11,9 @@ public class CreateTaskItemTests : TaskItemTestsBase
         //Arrange
         Setup(taskItemTitle: "Create Task Item Test");
         CallsToItaskItemRepository = 1;
+
         //Act
-        await _sut.CreateTaskItemAsync(CreateTaskItemRequest);
+        await _sut.CreateTaskItemAsync(CreateTaskItemRequest!);
 
         //Assert
         Assert.Equal(CallsToItaskItemRepository, _taskItemRepository.ReceivedCalls().Count());

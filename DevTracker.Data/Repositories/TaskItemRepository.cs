@@ -53,7 +53,7 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
     {
         try
         {
-            var taskItems = await _ctx.TaskItems.ToListAsync();
+            var taskItems = await _ctx.TaskItems.AsNoTracking().ToListAsync();
             return Result<IEnumerable<TaskItem>>.Success(taskItems);
         }
         catch (DbUpdateException ex)
@@ -82,7 +82,6 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
 
         try
         {
-            _ctx.TaskItems.Update(taskItem);
             await _ctx.SaveChangesAsync();
             return Result<TaskItem>.Success(taskItem);
         }

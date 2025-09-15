@@ -16,6 +16,7 @@ public enum Result
 {
     Success,
     Failure,
-    NotFound
+    NotFound,
+    Conflict
 }
 

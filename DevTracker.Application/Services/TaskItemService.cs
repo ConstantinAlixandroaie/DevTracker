@@ -55,6 +55,7 @@ public class TaskItemService : ITaskItemService
     public async Task<UpdateTaskItemResponse> UpdateTaskStatusAsync(UpdateTaskItemRequest request)
     {
         var result = await _taskItemRepo.UpdateTaskItemStatusAsync(request.TaskId, request.Status);
+
         if (!result.IsSuccess)
         {
             return new UpdateTaskItemResponse(Result.Failure, result.Error);
