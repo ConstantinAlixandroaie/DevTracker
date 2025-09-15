@@ -62,7 +62,13 @@ public class TaskItemController : ControllerBase
             return BadRequest("Task Id not found!");
         }
 
-        await _taskItemService.DeleteTaskItemAsync(taskId);
+        var response = await _taskItemService.DeleteTaskItemAsync(taskId);
+
+        if (response.Result != Result.Success)
+        {
+            return BadRequest(response.ErrorMessage);
+        }
+
         return Ok("You deleted a task!");
     }
 }
