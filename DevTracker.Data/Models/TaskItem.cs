@@ -1,11 +1,13 @@
-﻿using DevTracker.Domain.Enums;
+﻿using DevTracker.Data.Enums;
+using System.ComponentModel.DataAnnotations;
 
-namespace DevTracker.Domain.Models;
+namespace DevTracker.Data.Models;
 
 public class TaskItem
 {
     public long Id { get; private set; }
-    public string Title { get; set; } = null!;
+    [Required]
+    public string Title { get; set; } = string.Empty;
     public Status Status { get; set; } = Status.ToDo;
     public List<Note> Notes { get; set; } = new();
     public List<string> Tags { get; set; } = new();

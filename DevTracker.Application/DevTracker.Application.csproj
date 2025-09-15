@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DevTracker.Contracts\DevTracker.Contracts.csproj" />
-    <ProjectReference Include="..\DevTracker.Domain\DevTracker.Domain.csproj" />
   </ItemGroup>
 
 </Project>

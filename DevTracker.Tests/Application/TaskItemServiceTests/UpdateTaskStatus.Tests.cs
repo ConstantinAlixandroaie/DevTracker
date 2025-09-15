@@ -1,12 +1,12 @@
-﻿using DevTracker.Contracts.DTOs;
-using DevTracker.Domain.Enums;
+﻿using DevTracker.Contracts.Requests;
+using DevTracker.Data.Enums;
 using NSubstitute;
 
 namespace DevTracker.Tests.Application.TaskItemServiceTests;
 
 public class UpdateTaskStatusTests : TaskItemTestsBase
 {
-    protected UpdateTaskItemRequest _updateTaskItemRequest;
+    protected UpdateTaskItemRequest? _updateTaskItemRequest;
 
     [Fact]
     public void UpdateTaskStatus_ExpectSucces()
@@ -16,7 +16,7 @@ public class UpdateTaskStatusTests : TaskItemTestsBase
         Setup(1, Status.ToDo);
 
         //Act
-        _sut.UpdateTaskStatusAsync(_updateTaskItemRequest);
+        _sut.UpdateTaskStatusAsync(_updateTaskItemRequest!);
 
         //Assert
         Assert.Equal(CallsToItaskItemRepository, _taskItemRepository.ReceivedCalls().Count());

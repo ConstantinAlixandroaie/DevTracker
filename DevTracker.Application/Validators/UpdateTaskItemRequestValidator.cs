@@ -1,5 +1,5 @@
-﻿using DevTracker.Contracts.DTOs;
-using DevTracker.Domain.Enums;
+﻿using DevTracker.Contracts.Requests;
+using DevTracker.Data.Enums;
 using FluentValidation;
 
 namespace DevTracker.Application.Validators;

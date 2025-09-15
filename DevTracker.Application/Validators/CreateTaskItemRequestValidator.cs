@@ -1,4 +1,4 @@
-﻿using DevTracker.Contracts.DTOs;
+﻿using DevTracker.Contracts.Requests;
 using FluentValidation;
 
 namespace DevTracker.Application.Validators;

@@ -1,6 +1,6 @@
-﻿using DevTracker.Domain.Enums;
+﻿using DevTracker.Data.Enums;
 
-namespace DevTracker.Contracts.DTOs;
+namespace DevTracker.Contracts.Requests;
 
 public class UpdateTaskItemRequest
 {

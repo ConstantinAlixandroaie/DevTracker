@@ -1,4 +1,4 @@
-﻿namespace DevTracker.Domain.Models;
+﻿namespace DevTracker.Data.Models;
 
 public class Note
 {

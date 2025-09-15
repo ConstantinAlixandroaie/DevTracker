@@ -1,4 +1,5 @@
-﻿using DevTracker.Contracts.DTOs;
+﻿using DevTracker.Contracts.Requests;
+using DevTracker.Contracts.Responses;
 
 namespace DevTracker.Application.Interfaces;
 

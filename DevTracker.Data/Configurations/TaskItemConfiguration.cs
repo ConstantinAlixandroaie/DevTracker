@@ -1,4 +1,4 @@
-﻿using DevTracker.Domain.Models;
+﻿using DevTracker.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

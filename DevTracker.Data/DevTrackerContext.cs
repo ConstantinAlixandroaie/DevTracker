@@ -1,5 +1,5 @@
 ﻿using DevTracker.Data.Configurations;
-using DevTracker.Domain.Models;
+using DevTracker.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevTracker.Data;

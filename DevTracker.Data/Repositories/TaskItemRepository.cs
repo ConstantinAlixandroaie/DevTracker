@@ -1,7 +1,7 @@
-﻿using DevTracker.Domain.Common;
-using DevTracker.Domain.Enums;
-using DevTracker.Domain.IRepositories;
-using DevTracker.Domain.Models;
+﻿using DevTracker.Core;
+using DevTracker.Data.Enums;
+using DevTracker.Data.Models;
+using DevTracker.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

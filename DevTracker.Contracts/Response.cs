@@ -1,4 +1,4 @@
-﻿namespace DevTracker.Contracts.DTOs;
+﻿namespace DevTracker.Contracts;
 
 public class Response
 {

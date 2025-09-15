@@ -1,9 +1,8 @@
 ﻿using DevTracker.Application.Interfaces;
 using DevTracker.Application.Validators;
-using DevTracker.Contracts.DTOs;
-using DevTracker.Domain.Enums;
+using DevTracker.Contracts;
+using DevTracker.Contracts.Requests;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace DevTracker.API.Controllers;
 

@@ -18,6 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\DevTracker.Application\DevTracker.Application.csproj" />
 		<ProjectReference Include="..\DevTracker.Contracts\DevTracker.Contracts.csproj" />
 		<ProjectReference Include="..\DevTracker.Data\DevTracker.Data.csproj" />
 	</ItemGroup>

@@ -1,6 +1,6 @@
-﻿namespace DevTracker.Domain.Common;
+﻿namespace DevTracker.Core;
 
-public class Result<T>
+public sealed class Result<T>
 {
     public bool IsSuccess { get; }
     public string? Error { get; }

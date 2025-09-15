@@ -1,7 +1,8 @@
 ﻿using DevTracker.Application.Interfaces;
-using DevTracker.Contracts.DTOs;
-using DevTracker.Domain.IRepositories;
-using DevTracker.Domain.Models;
+using DevTracker.Contracts;
+using DevTracker.Contracts.Requests;
+using DevTracker.Contracts.Responses;
+using DevTracker.Data.Repositories.Interfaces;
 
 namespace DevTracker.Application.Services;
 

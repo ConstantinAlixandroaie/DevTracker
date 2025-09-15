@@ -1,8 +1,8 @@
-﻿using DevTracker.Domain.Common;
-using DevTracker.Domain.Enums;
-using DevTracker.Domain.Models;
+﻿using DevTracker.Core;
+using DevTracker.Data.Enums;
+using DevTracker.Data.Models;
 
-namespace DevTracker.Domain.IRepositories;
+namespace DevTracker.Data.Repositories.Interfaces;
 
 public interface ITaskItemRepository
 {

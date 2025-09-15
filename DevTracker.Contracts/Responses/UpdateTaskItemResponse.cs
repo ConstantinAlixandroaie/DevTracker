@@ -1,6 +1,4 @@
-﻿using DevTracker.Domain.Enums;
-
-namespace DevTracker.Contracts.DTOs;
+﻿namespace DevTracker.Contracts.Responses;
 
 public class UpdateTaskItemResponse : Response
 {
