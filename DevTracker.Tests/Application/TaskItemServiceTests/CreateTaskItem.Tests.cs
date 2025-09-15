@@ -1,4 +1,4 @@
-﻿using DevTracker.Domain.DTOs;
+﻿using DevTracker.Contracts.DTOs;
 using NSubstitute;
 
 namespace DevTracker.Tests.Application.TaskItemServiceTests;

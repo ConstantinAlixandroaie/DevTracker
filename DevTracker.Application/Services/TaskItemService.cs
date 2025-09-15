@@ -1,5 +1,5 @@
 ﻿using DevTracker.Application.Interfaces;
-using DevTracker.Domain.DTOs;
+using DevTracker.Contracts.DTOs;
 using DevTracker.Domain.IRepositories;
 using DevTracker.Domain.Models;
 
@@ -16,21 +16,48 @@ public class TaskItemService : ITaskItemService
 
     public async Task<CreateTaskItemResponse> CreateTaskItemAsync(CreateTaskItemRequest createTaskItemRequest)
     {
-        return await _taskItemRepo.CreateTaskItemAsync(createTaskItemRequest.TaskItemTitle);
+        var result = await _taskItemRepo.CreateTaskItemAsync(createTaskItemRequest.TaskItemTitle);
+
+        if (!result.IsSuccess)
+        {
+            return new CreateTaskItemResponse(Result.Failure, result.Error);
+        }
+
+        return new CreateTaskItemResponse(Result.Success);
     }
 
     public async Task<DeleteTaskItemResponse> DeleteTaskItemAsync(long taskItemId)
     {
-        return await _taskItemRepo.DeleteTaskItemAsync(taskItemId);
+        var result = await _taskItemRepo.DeleteTaskItemAsync(taskItemId);
+
+        if (!result.IsSuccess)
+        {
+            return new DeleteTaskItemResponse(Result.Failure, result.Error);
+        }
+
+        return new DeleteTaskItemResponse(Result.Success);
     }
 
-    public async Task<IEnumerable<TaskItem>> GetTaskItemsAsync()
+    public async Task<GetTaskItemsResponse> GetTaskItemsAsync()
     {
-        return await _taskItemRepo.GetTaskItemsAsync();
+        var result = await _taskItemRepo.GetTaskItemsAsync();
+
+        if (!result.IsSuccess)
+        {
+            return GetTaskItemsResponse.Failure(Result.Failure, result.Error);
+        }
+
+        return GetTaskItemsResponse.Success(Result.Success, result.Value);
+
     }
 
     public async Task<UpdateTaskItemResponse> UpdateTaskStatusAsync(UpdateTaskItemRequest request)
     {
-       return await _taskItemRepo.UpdateTaskItemStatusAsync(request.TaskId, request.Status);
+        var result = await _taskItemRepo.UpdateTaskItemStatusAsync(request.TaskId, request.Status);
+        if (!result.IsSuccess)
+        {
+            return new UpdateTaskItemResponse(Result.Failure, result.Error);
+        }
+        return new UpdateTaskItemResponse(Result.Success);
     }
 }

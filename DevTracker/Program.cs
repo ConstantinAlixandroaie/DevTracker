@@ -6,7 +6,6 @@ using DevTracker.Data.Repositories;
 using DevTracker.Domain.IRepositories;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DevTracker.API;
 

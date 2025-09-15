@@ -1,6 +1,6 @@
 ﻿using DevTracker.Application.Interfaces;
 using DevTracker.Application.Services;
-using DevTracker.Domain.DTOs;
+using DevTracker.Contracts.DTOs;
 using DevTracker.Domain.IRepositories;
 using NSubstitute;
 

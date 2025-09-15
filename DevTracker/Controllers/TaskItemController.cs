@@ -1,7 +1,9 @@
 ﻿using DevTracker.Application.Interfaces;
 using DevTracker.Application.Validators;
-using DevTracker.Domain.DTOs;
+using DevTracker.Contracts.DTOs;
+using DevTracker.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace DevTracker.API.Controllers;
 
@@ -41,7 +43,13 @@ public class TaskItemController : ControllerBase
             return BadRequest(validationResponse.Errors.ToString());
         }
 
-        await _taskItemService.CreateTaskItemAsync(createTaskItemRequest);
+        var response = await _taskItemService.CreateTaskItemAsync(createTaskItemRequest);
+
+        if (response.Result != Result.Success)
+        {
+            return Conflict(response.ErrorMessage);
+        }
+
         return Ok("You added a task!");
     }
 

@@ -1,6 +1,4 @@
-﻿using DevTracker.Domain.Enums;
-
-namespace DevTracker.Domain.DTOs;
+﻿namespace DevTracker.Contracts.DTOs;
 
 public class Response
 {
@@ -12,5 +10,12 @@ public class Response
         Result = result;
         ErrorMessage = errorMessage;
     }
+}
+
+public enum Result
+{
+    Success,
+    Failure,
+    NotFound
 }
 

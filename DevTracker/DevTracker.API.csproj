@@ -15,11 +15,10 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.4" />
-		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\DevTracker.Contracts\DevTracker.Contracts.csproj" />
 		<ProjectReference Include="..\DevTracker.Data\DevTracker.Data.csproj" />
 	</ItemGroup>
 

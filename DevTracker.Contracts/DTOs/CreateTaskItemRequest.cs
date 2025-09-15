@@ -1,4 +1,4 @@
-﻿namespace DevTracker.Domain.DTOs;
+﻿namespace DevTracker.Contracts.DTOs;
 
 public class CreateTaskItemRequest
 {

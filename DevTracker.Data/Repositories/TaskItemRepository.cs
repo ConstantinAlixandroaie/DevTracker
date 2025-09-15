@@ -1,16 +1,15 @@
-﻿using DevTracker.Domain.DTOs;
+﻿using DevTracker.Domain.Common;
 using DevTracker.Domain.Enums;
 using DevTracker.Domain.IRepositories;
 using DevTracker.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
 namespace DevTracker.Data.Repositories;
 
 public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> logger) : BaseRepository(ctx, logger), ITaskItemRepository
 {
-    public async Task<CreateTaskItemResponse> CreateTaskItemAsync(string taskItemTitle)
+    public async Task<Result<TaskItem>> CreateTaskItemAsync(string taskItemTitle)
     {
         var taskItem = new TaskItem
         {
@@ -21,55 +20,61 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         {
             _ctx.TaskItems.Add(taskItem);
             await _ctx.SaveChangesAsync();
-            return new CreateTaskItemResponse(Result.Success);
+            return Result<TaskItem>.Success(taskItem);
         }
         catch (DbUpdateException ex)
         {
-            return new CreateTaskItemResponse(Result.Failure, ex.Message);
+            return Result<TaskItem>.Failure(ex.Message);
         }
-
     }
 
-    public async Task<DeleteTaskItemResponse> DeleteTaskItemAsync(long taskItemId)
+    public async Task<Result<TaskItem>> DeleteTaskItemAsync(long taskItemId)
     {
         var taskItem = _ctx.TaskItems.FirstOrDefault(taskItem => taskItem.Id == taskItemId);
 
         if (taskItem == null)
         {
-            _logger.LogError("The task does not exist.");
-            return new DeleteTaskItemResponse(Result.Failure, "The task does not exist.");
+            return Result<TaskItem>.Failure("The task does not exist.");
         }
 
         try
         {
             _ctx.TaskItems.Remove(taskItem);
             await _ctx.SaveChangesAsync();
-            return new DeleteTaskItemResponse(Result.Success);
+            return Result<TaskItem>.Success(taskItem);
         }
         catch (DbUpdateException ex)
         {
-            return new DeleteTaskItemResponse(Result.Failure, ex.Message);
+            return Result<TaskItem>.Failure(ex.Message);
         }
     }
 
-    public async Task<IEnumerable<TaskItem>> GetTaskItemsAsync()
+    public async Task<Result<IEnumerable<TaskItem>>> GetTaskItemsAsync()
     {
-        return await _ctx.TaskItems.ToListAsync();
+        try
+        {
+            var taskItems = await _ctx.TaskItems.ToListAsync();
+            return Result<IEnumerable<TaskItem>>.Success(taskItems);
+        }
+        catch (DbUpdateException ex)
+        {
+            return Result<IEnumerable<TaskItem>>.Failure(ex.Message);
+        }
     }
 
-    public async Task<UpdateTaskItemResponse> UpdateTaskItemStatusAsync(long taskItemId, Status status)
+    public async Task<Result<TaskItem>> UpdateTaskItemStatusAsync(long taskItemId, Status status)
     {
         var taskItem = _ctx.TaskItems.FirstOrDefault(item => item.Id == taskItemId);
 
         if (taskItem is null)
         {
             _logger.LogError("The task does not exist.");
-            return new UpdateTaskItemResponse(Result.Failure, "The task does not exist.");
+            return Result<TaskItem>.Failure("Task Item not found");
         }
 
         if (taskItem.Status == status)
         {
-            return new UpdateTaskItemResponse(Result.Failure, "Status not changed, database not updated!");
+            return Result<TaskItem>.Failure("Task Item Status not changed.");
         }
 
         taskItem.Status = status;
@@ -79,11 +84,11 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         {
             _ctx.TaskItems.Update(taskItem);
             await _ctx.SaveChangesAsync();
-            return new UpdateTaskItemResponse(Result.Success);
+            return Result<TaskItem>.Success(taskItem);
         }
         catch (DbUpdateException ex)
         {
-            return new UpdateTaskItemResponse(Result.Failure, ex.Message);
+            return Result<TaskItem>.Failure(ex.Message);
         }
     }
 }
