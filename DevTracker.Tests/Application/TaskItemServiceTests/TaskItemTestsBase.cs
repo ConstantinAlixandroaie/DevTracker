@@ -18,6 +18,7 @@ public abstract class TaskItemTestsBase : IDisposable
         _sut = Substitute.For<TaskItemService>(_taskItemRepository);
 
     }
+
     public void Dispose()
     {
 
