@@ -21,7 +21,7 @@ public class NoteServiceTests : NoteServiceTestBase
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.AddNoteAsync(noteContent, taskId);
+        var response = await _sut.AddNoteAsync(taskId, noteContent);
 
         //Assert
         Assert.Equal(errorMessage, response.ErrorMessage);
@@ -41,7 +41,7 @@ public class NoteServiceTests : NoteServiceTestBase
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.AddNoteAsync(noteContent, taskId);
+        var response = await _sut.AddNoteAsync(taskId, noteContent);
 
         //Assert
         Assert.Equal(errorMessage, response.ErrorMessage);
@@ -59,7 +59,7 @@ public class NoteServiceTests : NoteServiceTestBase
           .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.AddNoteAsync(noteContent, taskId);
+        var response = await _sut.AddNoteAsync(taskId, noteContent);
 
         //Assert
         Assert.Null(response.ErrorMessage);
