@@ -1,25 +1,60 @@
 ﻿using DevTracker.Application.Interfaces;
+using DevTracker.Contracts;
+using DevTracker.Contracts.Responses.Notes;
+using DevTracker.Data.Models;
+using DevTracker.Data.Repositories.Interfaces;
 
 namespace DevTracker.Application.Services;
 
 public class NoteService : INoteService
 {
-    public Task AddNoteAsync(string content)
+    private readonly INoteRepository _noteRepo;
+    public NoteService(INoteRepository noteRepo)
     {
-        throw new NotImplementedException();
+        _noteRepo = noteRepo;
     }
 
-    public Task DeleteNoteAsync(long noteId)
+    public async Task<AddNoteReponse> AddNoteAsync(string content, long taskId)
     {
-        throw new NotImplementedException();
+        var note = new Note
+        {
+            Content = content
+        };
+
+        var result = await _noteRepo.AddNoteAsync(note, taskId);
+
+        if (!result.IsSuccess)
+        {
+            return new AddNoteReponse(Result.Failure, result.Error);
+        }
+
+        return new AddNoteReponse(Result.Success);
     }
 
-    public Task GetNotesAsync(long taskId)
+    public async Task<DeleteNoteResponse> DeleteNoteAsync(long noteId)
     {
-        throw new NotImplementedException();
+        var result = await _noteRepo.DeleteNoteAsync(noteId);
+        if (!result.IsSuccess)
+        {
+            return new DeleteNoteResponse(Result.NotFound, result.Error);
+        }
+
+        return new DeleteNoteResponse(Result.Success);
     }
 
-    public Task UpdateNoteAsync(long noteId, string content)
+    public async Task<GetNoteResponse> GetNotesAsync(long taskId)
+    {
+        var result = await _noteRepo.GetNotesAsync(taskId);
+
+        if (!result.IsSuccess)
+        {
+            return GetNoteResponse.Failure(Result.Failure, result.Error);
+        }
+
+        return GetNoteResponse.Success(Result.Success, result.Value);
+    }
+
+    public Task<UpdateNoteReponse> UpdateNoteAsync(long noteId, string content)
     {
         throw new NotImplementedException();
     }

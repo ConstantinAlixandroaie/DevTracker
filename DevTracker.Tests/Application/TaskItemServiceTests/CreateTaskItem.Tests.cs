@@ -36,7 +36,7 @@ public class CreateTaskItemTests : TaskItemTestsBase
         var taskItemTitle = string.Empty;
         var errorMessage = "Task item title cannot be empty.";
         Setup(taskItemTitle);
-        var repoResult = Result<TaskItem>.Failure(errorMessage);
+        var repoResult = Result<TaskItem>.Failure(ErrorType.Validation,errorMessage);
         _taskItemRepository.CreateTaskItemAsync(taskItemTitle)
             .Returns(Task.FromResult(repoResult));
 

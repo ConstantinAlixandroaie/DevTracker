@@ -29,13 +29,14 @@ public class UpdateTaskStatusTests : TaskItemTestsBase
         Assert.Equal(CallsToItaskItemRepository, _taskItemRepository.ReceivedCalls().Count());
     }
 
+    [Fact]
     public async Task UpdateTaskStatus_RepoReturnsFailure_ExpectFailureAsync()
     {
         //Arrange
         CallsToItaskItemRepository = 1;
         Setup(1, Status.ToDo);
-        var errorMessage = "Task item not found.";
-        var repoResult = Result<TaskItem>.Failure(errorMessage);
+        const string errorMessage = "Task item not found.";
+        var repoResult = Result<TaskItem>.Failure(ErrorType.NotFound, errorMessage);
         _taskItemRepository.UpdateTaskItemStatusAsync(_updateTaskItemRequest!.TaskId, _updateTaskItemRequest.Status)
              .Returns(Task.FromResult(repoResult));
         //Act

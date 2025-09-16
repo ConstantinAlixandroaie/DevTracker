@@ -1,4 +1,5 @@
-﻿using DevTracker.Data.Models;
+﻿using DevTracker.Core;
+using DevTracker.Data.Models;
 using DevTracker.Data.Repositories.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -10,22 +11,22 @@ public class NoteRepository : BaseRepository, INoteRepository
     {
     }
 
-    public Task AddNoteAsync(Note note, long taskId)
+    public Task<Result<Note>> AddNoteAsync(Note note, long taskId)
     {
         throw new NotImplementedException();
     }
 
-    public Task DeleteNoteAsync(long noteId)
+    public Task<Result<Note>> DeleteNoteAsync(long noteId)
     {
         throw new NotImplementedException();
     }
 
-    public Task GetNotesAsync(long taskId)
+    public Task<Result<IEnumerable<Note>>> GetNotesAsync(long taskId)
     {
         throw new NotImplementedException();
     }
 
-    public Task UpdateNoteAsync(long noteId, string content)
+    public Task<Result<Note>> UpdateNoteAsync(long noteId, string content)
     {
         throw new NotImplementedException();
     }

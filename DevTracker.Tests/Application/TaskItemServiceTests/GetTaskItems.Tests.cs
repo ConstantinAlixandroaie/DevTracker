@@ -2,7 +2,6 @@
 using DevTracker.Core;
 using DevTracker.Data.Models;
 using NSubstitute;
-using Xunit.Sdk;
 
 namespace DevTracker.Tests.Application.TaskItemServiceTests;
 
@@ -32,7 +31,7 @@ public class GetTaskItemsTest : TaskItemTestsBase
         //Arrange
         CallsToItaskItemRepository = 1;
         var errorMessage = "Database connection failed.";
-        var repoResult = Result<IEnumerable<TaskItem>>.Failure(errorMessage);
+        var repoResult = Result<IEnumerable<TaskItem>>.Failure(ErrorType.Unexpected, errorMessage);
         _taskItemRepository.GetTaskItemsAsync()
             .Returns(Task.FromResult(repoResult));
 
@@ -41,7 +40,7 @@ public class GetTaskItemsTest : TaskItemTestsBase
 
         //Assert
         Assert.Equal(Result.Failure, response.Result);
-        Assert.Equal(errorMessage,response.ErrorMessage);
+        Assert.Equal(errorMessage, response.ErrorMessage);
         Assert.Equal(CallsToItaskItemRepository, _taskItemRepository.ReceivedCalls().Count());
     }
 }

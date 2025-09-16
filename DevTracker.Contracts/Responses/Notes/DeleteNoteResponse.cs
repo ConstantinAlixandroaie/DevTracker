@@ -1,4 +1,4 @@
-﻿namespace DevTracker.Contracts.Responses.Note;
+﻿namespace DevTracker.Contracts.Responses.Notes;
 
 public class DeleteNoteResponse : Response
 {

@@ -3,7 +3,6 @@ using DevTracker.Application.Services;
 using DevTracker.Data;
 using DevTracker.Data.Repositories;
 using DevTracker.Data.Repositories.Interfaces;
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevTracker.API;
