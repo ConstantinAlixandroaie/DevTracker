@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DevTracker.Application.Interfaces;
+using DevTracker.Contracts;
+using DevTracker.Contracts.Requests;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DevTracker.API.Controllers;
 
@@ -6,24 +9,66 @@ namespace DevTracker.API.Controllers;
 [ApiController]
 public class TaskItemController : ControllerBase
 {
+    private readonly ITaskItemService _taskItemService;
+
+    public TaskItemController(ITaskItemService taskItemService)
+    {
+        _taskItemService = taskItemService;
+    }
+
     [HttpGet]
     [Route("GetTasks")]
-    public IActionResult GetTasks()
+    public async Task<IActionResult> GetTasks()
     {
-        return Ok("You got tasks!");
+        var response = await _taskItemService.GetTaskItemsAsync();
+        return Ok(response);
     }
 
     [HttpPost]
     [Route("AddTask")]
-    public IActionResult AddTask()
+    public async Task<IActionResult> AddTask([FromBody] CreateTaskItemRequest createTaskItemRequest)
     {
-        return Ok("You added a task!");
+        var response = await _taskItemService.CreateTaskItemAsync(createTaskItemRequest);
+
+        if (response.Result != Result.Success)
+        {
+            return Conflict(response.ErrorMessage);
+        }
+
+        return Ok("Task Created Succesfully!");
     }
 
     [HttpPut]
     [Route("UpdateStatus")]
-    public IActionResult UpdateTaksStatus()
+    public async Task<IActionResult> UpdateTaskStatus([FromBody] UpdateTaskItemRequest updateTaskItemRequest)
     {
-        return Ok("You updated a task Status!");
+
+        var response = await _taskItemService.UpdateTaskStatusAsync(updateTaskItemRequest);
+
+        if (response.Result == Result.Failure)
+        {
+            return BadRequest(response.ErrorMessage);
+        }
+
+        return Ok("Task Updated Succesfully!");
+    }
+
+    [HttpDelete]
+    [Route("DeleteTask")]
+    public async Task<IActionResult> DeleteTask([FromQuery] long taskId)
+    {
+        if (taskId <= 0)
+        {
+            return BadRequest("Task Id not found!");
+        }
+
+        var response = await _taskItemService.DeleteTaskItemAsync(taskId);
+
+        if (response.Result != Result.Success)
+        {
+            return BadRequest(response.ErrorMessage);
+        }
+
+        return Ok("You deleted a task!");
     }
 }

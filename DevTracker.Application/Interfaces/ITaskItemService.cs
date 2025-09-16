@@ -1,10 +1,12 @@
-﻿using DevTracker.Domain.Enums;
+﻿using DevTracker.Contracts.Requests;
+using DevTracker.Contracts.Responses.TaskItems;
 
-namespace DevTracker.Application.Services;
+namespace DevTracker.Application.Interfaces;
 
 public interface ITaskItemService
 {
-    public Task<bool> CreateTaskItemAsync(string title);
-    public Task DeleteTaskItemAsync(Guid taskItemId);
-    public Task UpdateTaskStatusAsync(Status status);
+    Task<CreateTaskItemResponse> CreateTaskItemAsync(CreateTaskItemRequest createTaskItemRequest);
+    Task<GetTaskItemsResponse> GetTaskItemsAsync();
+    Task<DeleteTaskItemResponse> DeleteTaskItemAsync(long taskItemId);
+    Task<UpdateTaskItemResponse> UpdateTaskStatusAsync(UpdateTaskItemRequest request);
 }
