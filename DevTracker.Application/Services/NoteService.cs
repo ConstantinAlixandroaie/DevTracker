@@ -15,7 +15,7 @@ public class NoteService : INoteService
         _noteRepo = noteRepo;
     }
 
-    public async Task<AddNoteReponse> AddNoteAsync(string content, long taskId)
+    public async Task<AddNoteReponse> AddNoteAsync(long taskId, string content)
     {
         var note = new Note
         {

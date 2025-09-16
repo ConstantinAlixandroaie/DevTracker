@@ -1,5 +1,6 @@
 ﻿using DevTracker.Application.Interfaces;
 using DevTracker.Contracts;
+using DevTracker.Contracts.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevTracker.API.Controllers;
@@ -29,9 +30,9 @@ public class NoteController : ControllerBase
 
     [HttpPost]
     [Route("addNote")]
-    public async Task<IActionResult> AddNote([FromBody] string content,  long taskId)
+    public async Task<IActionResult> AddNote([FromBody] AddNoteRequest request)
     {
-        var response = await _noteService.AddNoteAsync(content, taskId);
+        var response = await _noteService.AddNoteAsync(request.TaskId, request.Content);
         if (response.Result != Result.Success)
         {
             return BadRequest(response.ErrorMessage);
@@ -42,10 +43,10 @@ public class NoteController : ControllerBase
 
     [HttpPut]
     [Route("updateNote")]
-    public async Task<IActionResult> UpdateNote([FromBody] long noteId, string content)
+    public async Task<IActionResult> UpdateNote([FromBody] UpdateNoteRequest request)
     {
 
-        var response = await _noteService.UpdateNoteAsync(noteId, content);
+        var response = await _noteService.UpdateNoteAsync(request.NoteId, request.Content);
         if (response.Result != Result.Success)
         {
             return BadRequest(response.ErrorMessage);
