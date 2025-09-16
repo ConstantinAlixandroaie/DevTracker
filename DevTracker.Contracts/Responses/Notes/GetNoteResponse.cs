@@ -1,5 +1,4 @@
-﻿using DevTracker.Contracts.Responses.TaskItems;
-using DevTracker.Data.Models;
+﻿using DevTracker.Data.Models;
 
 namespace DevTracker.Contracts.Responses.Notes;
 

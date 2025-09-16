@@ -1,6 +1,7 @@
 ﻿using DevTracker.Core;
 using DevTracker.Data.Models;
 using DevTracker.Data.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace DevTracker.Data.Repositories;
@@ -11,23 +12,85 @@ public class NoteRepository : BaseRepository, INoteRepository
     {
     }
 
-    public Task<Result<Note>> AddNoteAsync(Note note, long taskId)
+    public async Task<Result<Note>> AddNoteAsync(Note note, long taskId)
     {
-        throw new NotImplementedException();
+        var taskItem = _ctx.TaskItems.AsNoTracking().FirstOrDefault(taskItem => taskItem.Id == taskId);
+
+        if (taskItem == null)
+        {
+            return Result<Note>.Failure(ErrorType.NotFound, "Task not Found.");
+        }
+
+        note.TaskItemId = taskItem.Id;
+
+        try
+        {
+            await _ctx.Notes.AddAsync(note);
+            await _ctx.SaveChangesAsync();
+            return Result<Note>.Success(note);
+        }
+        catch (DbUpdateException ex)
+        {
+            return Result<Note>.Failure(ErrorType.Unexpected, ex.Message);
+        }
     }
 
-    public Task<Result<Note>> DeleteNoteAsync(long noteId)
+    public async Task<Result<Note>> DeleteNoteAsync(long noteId)
     {
-        throw new NotImplementedException();
+        var note = _ctx.Notes.FirstOrDefault(note => note.Id == noteId);
+
+        if (note == null)
+        {
+            return Result<Note>.Failure(ErrorType.NotFound, "Note not found.");
+        }
+
+        try
+        {
+            _ctx.Notes.Remove(note);
+            await _ctx.SaveChangesAsync();
+            return Result<Note>.Success(note);
+        }
+        catch (DbUpdateException ex)
+        {
+            return Result<Note>.Failure(ErrorType.Unexpected, ex.Message);
+        }
     }
 
-    public Task<Result<IEnumerable<Note>>> GetNotesAsync(long taskId)
+    public async Task<Result<IEnumerable<Note>>> GetNotesAsync(long taskId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var notes = await _ctx.Notes.AsNoTracking().Where(note => note.TaskItemId == taskId).ToListAsync();
+            return Result<IEnumerable<Note>>.Success(notes);
+        }
+        catch (DbUpdateException ex)
+        {
+            return Result<IEnumerable<Note>>.Failure(ErrorType.NotFound, ex.Message);
+        }
     }
 
-    public Task<Result<Note>> UpdateNoteAsync(long noteId, string content)
+    public async Task<Result<Note>> UpdateNoteAsync(long noteId, string content)
     {
-        throw new NotImplementedException();
+        var note = _ctx.Notes.FirstOrDefault(note => note.Id == noteId);
+        if (note == null)
+        {
+            return Result<Note>.Failure(ErrorType.NotFound, "Note not found.");
+        }
+
+        if (note.Content == content)
+        {
+            return Result<Note>.Failure(ErrorType.Validation, "Note content not changed.");
+        }
+
+        note.Content = content;
+        try
+        {
+            await _ctx.SaveChangesAsync();
+            return Result<Note>.Success(note);
+        }
+        catch (DbUpdateException ex)
+        {
+            return Result<Note>.Failure(ErrorType.Unexpected, ex.Message);
+        }
     }
 }

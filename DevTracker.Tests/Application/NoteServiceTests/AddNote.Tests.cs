@@ -1,10 +1,7 @@
 ﻿using DevTracker.Contracts;
 using DevTracker.Core;
 using DevTracker.Data.Models;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using NSubstitute;
-using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace DevTracker.Tests.Application.NoteServiceTests;
 
