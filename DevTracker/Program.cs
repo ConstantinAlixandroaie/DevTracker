@@ -17,6 +17,7 @@ public static class Program
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
         builder.Services.AddScoped<ITaskItemRepository, TaskItemRepository>();
+        builder.Services.AddScoped<INoteRepository, NoteRepository>();
 
         builder.Services.AddScoped<ITaskItemService, TaskItemService>();
         builder.Services.AddScoped<INoteService, NoteService>();

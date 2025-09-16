@@ -9,6 +9,7 @@ namespace DevTracker.Application.Services;
 public class NoteService : INoteService
 {
     private readonly INoteRepository _noteRepo;
+
     public NoteService(INoteRepository noteRepo)
     {
         _noteRepo = noteRepo;
