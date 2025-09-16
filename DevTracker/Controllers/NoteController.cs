@@ -16,7 +16,7 @@ public class NoteController : ControllerBase
 
     [HttpGet]
     [Route("getNotes")]
-    public async Task<IActionResult> GetNotes([FromBody] long taskId)
+    public async Task<IActionResult> GetNotes([FromQuery] long taskId)
     {
         var response = await _noteService.GetNotesAsync(taskId);
         if (response.Result != Result.Success)
@@ -29,7 +29,7 @@ public class NoteController : ControllerBase
 
     [HttpPost]
     [Route("addNote")]
-    public async Task<IActionResult> AddNote([FromBody] string content, long taskId)
+    public async Task<IActionResult> AddNote([FromBody] string content,  long taskId)
     {
         var response = await _noteService.AddNoteAsync(content, taskId);
         if (response.Result != Result.Success)

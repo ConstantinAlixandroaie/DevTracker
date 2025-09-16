@@ -55,8 +55,14 @@ public class NoteService : INoteService
         return GetNoteResponse.Success(Result.Success, result.Value);
     }
 
-    public Task<UpdateNoteReponse> UpdateNoteAsync(long noteId, string content)
+    public async Task<UpdateNoteReponse> UpdateNoteAsync(long noteId, string content)
     {
-        throw new NotImplementedException();
+        var result = await _noteRepo.UpdateNoteAsync(noteId, content);
+        if (!result.IsSuccess)
+        {
+            return UpdateNoteReponse.Failure(Result.Failure, result.Error);
+        }
+
+        return UpdateNoteReponse.Success(Result.Success, result.Value);
     }
 }
