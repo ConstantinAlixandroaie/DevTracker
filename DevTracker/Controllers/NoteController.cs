@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DevTracker.Application.Interfaces;
+using DevTracker.Contracts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DevTracker.API.Controllers;
 
@@ -6,48 +8,63 @@ namespace DevTracker.API.Controllers;
 [ApiController]
 public class NoteController : ControllerBase
 {
+    private readonly INoteService _noteService;
+    public NoteController(INoteService noteService)
+    {
+        _noteService = noteService;
+    }
+
     [HttpGet]
     [Route("getNotes")]
     public async Task<IActionResult> GetNotes([FromBody] long taskId)
     {
-        return Ok("Notes Retrieved Successfully!");
+        var response = await _noteService.GetNotesAsync(taskId);
+        if (response.Result != Result.Success)
+        {
+            return NotFound(response.ErrorMessage);
+        }
+
+        return Ok(response.Notes);
     }
 
     [HttpPost]
     [Route("addNote")]
-    public async Task<IActionResult> AddNote([FromBody] string content)
+    public async Task<IActionResult> AddNote([FromBody] string content, long taskId)
     {
-        if (string.IsNullOrWhiteSpace(content))
+        var response = await _noteService.AddNoteAsync(content, taskId);
+        if (response.Result != Result.Success)
         {
-            return BadRequest("Note content cannot be empty.");
+            return BadRequest(response.ErrorMessage);
         }
-        return Ok("Note Added Successfully!");
+
+        return Ok(response);
     }
 
     [HttpPut]
     [Route("updateNote")]
     public async Task<IActionResult> UpdateNote([FromBody] long noteId, string content)
     {
-        if (noteId <= 0)
+
+        var response = await _noteService.UpdateNoteAsync(noteId, content);
+        if (response.Result != Result.Success)
         {
-            return BadRequest("Invalid note ID.");
+            return BadRequest(response.ErrorMessage);
         }
-        if (string.IsNullOrWhiteSpace(content))
-        {
-            return BadRequest("Note content cannot be empty.");
-        }
-        return Ok("Note Updated Successfully!");
+
+        return Ok(response);
     }
 
     [HttpDelete]
     [Route("deleteNote")]
     public async Task<IActionResult> DeleteNote([FromQuery] long noteId)
     {
-        if (noteId <= 0)
+        var response = await _noteService.DeleteNoteAsync(noteId);
+
+        if (response.Result != Result.Success)
         {
-            return BadRequest("Invalid Note Id");
+            return BadRequest(response.ErrorMessage);
         }
 
-        return Ok("Note Deleted");
+        return Ok(response);
     }
 }
