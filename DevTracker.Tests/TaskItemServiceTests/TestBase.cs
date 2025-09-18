@@ -10,6 +10,8 @@ public abstract class TestBase : IDisposable
 {
     protected CreateTaskItemRequest? CreateTaskItemRequest;
     protected int CallsToItaskItemRepository;
+    protected int TaskId;
+    protected string? ErrorMessage;
     protected ITaskItemRepository _taskItemRepository = Substitute.For<ITaskItemRepository>();
     protected ITaskItemService _sut;
 
@@ -22,5 +24,17 @@ public abstract class TestBase : IDisposable
     public void Dispose()
     {
 
+    }
+
+    protected void Setup(string? taskItemTitle = null, string? errorMessage = null, int repoCalls = 1, int taskId = 1)
+    {
+        CreateTaskItemRequest = new CreateTaskItemRequest
+        {
+            TaskItemTitle = taskItemTitle
+        };
+
+        ErrorMessage = errorMessage;
+        CallsToItaskItemRepository = repoCalls;
+        TaskId = taskId;
     }
 }

@@ -12,9 +12,8 @@ public class CreateTaskItemTests : TestBase
     public async Task CreateTaskItem_WithString_ExpectSuccessAsync()
     {
         //Arrange
-        CallsToItaskItemRepository = 1;
-        var taskItemTitle = "Valid Task";
-        Setup(taskItemTitle);
+        const string taskItemTitle = "Valid Task";
+        Setup(taskItemTitle: taskItemTitle);
         var repoResult = Result<TaskItem>.Success(new TaskItem());
         _taskItemRepository.CreateTaskItemAsync(taskItemTitle)
             .Returns(Task.FromResult(repoResult));
@@ -32,11 +31,10 @@ public class CreateTaskItemTests : TestBase
     public async Task CreateTaskItem_WithEmptyString_ExpectFailAsync()
     {
         //Arrange
-        CallsToItaskItemRepository = 1;
         var taskItemTitle = string.Empty;
-        var errorMessage = "Task item title cannot be empty.";
-        Setup(taskItemTitle);
-        var repoResult = Result<TaskItem>.Failure(ErrorType.Validation,errorMessage);
+        const string errorMessage = "Task item title cannot be empty.";
+        Setup(taskItemTitle: taskItemTitle, errorMessage: errorMessage);
+        var repoResult = Result<TaskItem>.Failure(ErrorType.Validation, errorMessage);
         _taskItemRepository.CreateTaskItemAsync(taskItemTitle)
             .Returns(Task.FromResult(repoResult));
 
@@ -46,14 +44,6 @@ public class CreateTaskItemTests : TestBase
         //Assert
         Assert.Equal(CallsToItaskItemRepository, _taskItemRepository.ReceivedCalls().Count());
         Assert.Equal(Result.Failure, response.Result);
-        Assert.Equal("Task item title cannot be empty.", response.ErrorMessage);
-    }
-
-    protected void Setup(string taskItemTitle)
-    {
-        CreateTaskItemRequest = new CreateTaskItemRequest
-        {
-            TaskItemTitle = taskItemTitle
-        };
+        Assert.Equal(ErrorMessage, response.ErrorMessage);
     }
 }

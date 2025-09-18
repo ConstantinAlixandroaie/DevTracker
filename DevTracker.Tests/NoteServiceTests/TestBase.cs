@@ -23,7 +23,7 @@ public class TestBase : IDisposable
     {
     }
 
-    public void Setup(string? noteContent = null, int taskId = 1, string? errorMessage = null)
+    protected void Setup(string? noteContent = null, int taskId = 1, string? errorMessage = null)
     {
         NoteContent = noteContent;
         TaskId = taskId;

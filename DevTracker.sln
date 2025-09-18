@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.Core", "DevTrack
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.Domain", "DevTracker.Domain\DevTracker.Domain.csproj", "{9063FC58-1433-1564-02E2-A6872FD3B667}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevTracker.TestFolder", "DevTracker.TestFolder", "{BA49DCDE-4BEC-4C6C-946D-5C2E98FF3146}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevTracker.Tests", "DevTracker.Tests", "{BA49DCDE-4BEC-4C6C-946D-5C2E98FF3146}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
