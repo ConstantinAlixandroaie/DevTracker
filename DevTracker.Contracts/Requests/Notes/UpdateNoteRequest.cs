@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DevTracker.Contracts.Requests;
+namespace DevTracker.Contracts.Requests.Notes;
 
-public class AddNoteRequest
+public class UpdateNoteRequest
 {
     [Required]
-    public long TaskId { get; set; }
+    public long NoteId { get; set; }
     [Required]
     public string Content { get; set; }
 }

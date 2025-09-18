@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DevTracker.Contracts.Requests;
+namespace DevTracker.Contracts.Requests.TaskItems;
 
 public class CreateTaskItemRequest
 {
