@@ -3,28 +3,29 @@ using DevTracker.Core;
 using DevTracker.Data.Models;
 using NSubstitute;
 
-namespace DevTracker.Tests.Application.NoteServiceTests;
+namespace DevTracker.Application.Tests.NoteServiceTests;
 
-public class NoteServiceTests : NoteServiceTestBase
+public class AddNoteTests : TestBase
 {
 
     [Fact]
     public async Task AddNote_WithEmptyStringContent_ExpectFailure()
     {
         //Arrange
-        var noteContent = string.Empty;
-        const int taskId = 1;
         const string errorMessage = "Content cannot be empty";
-        var repoResult = Result<Note>.Failure(ErrorType.Validation, errorMessage);
+
+        Setup(errorMessage: errorMessage);
+
+        var repoResult = Result<Note>.Failure(ErrorType.Validation, ErrorMessage!);
 
         _noteRepository.AddNoteAsync(Arg.Any<Note>(), Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.AddNoteAsync(noteContent, taskId);
+        var response = await _sut.AddNoteAsync(TaskId, NoteContent!);
 
         //Assert
-        Assert.Equal(errorMessage, response.ErrorMessage);
+        Assert.Equal(ErrorMessage, response.ErrorMessage);
         Assert.Equal(Result.Failure, response.Result);
     }
 
@@ -32,19 +33,20 @@ public class NoteServiceTests : NoteServiceTestBase
     public async Task AddNote_WithNullContent_ExpectFailure()
     {
         //Arrange
-        string? noteContent = null;
-        const int taskId = 1;
+        const string? noteContent = "";
         const string errorMessage = "Content cannot be empty";
-        var repoResult = Result<Note>.Failure(ErrorType.Validation, errorMessage);
+        Setup(noteContent: noteContent, errorMessage: errorMessage);
+
+        var repoResult = Result<Note>.Failure(ErrorType.Validation, ErrorMessage!);
 
         _noteRepository.AddNoteAsync(Arg.Any<Note>(), Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.AddNoteAsync(noteContent, taskId);
+        var response = await _sut.AddNoteAsync(TaskId, NoteContent!);
 
         //Assert
-        Assert.Equal(errorMessage, response.ErrorMessage);
+        Assert.Equal(ErrorMessage, response.ErrorMessage);
         Assert.Equal(Result.Failure, response.Result);
     }
 
@@ -53,13 +55,14 @@ public class NoteServiceTests : NoteServiceTestBase
     {
         //Arrange
         const string noteContent = "Create Initial Note Test";
-        const int taskId = 1;
+        Setup(noteContent: noteContent);
         var repoResult = Result<Note>.Success(new Note());
+
         _noteRepository.AddNoteAsync(Arg.Any<Note>(), Arg.Any<long>())
           .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.AddNoteAsync(noteContent, taskId);
+        var response = await _sut.AddNoteAsync(TaskId, NoteContent!);
 
         //Assert
         Assert.Null(response.ErrorMessage);

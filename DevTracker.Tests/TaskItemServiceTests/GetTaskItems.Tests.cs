@@ -3,9 +3,9 @@ using DevTracker.Core;
 using DevTracker.Data.Models;
 using NSubstitute;
 
-namespace DevTracker.Tests.Application.TaskItemServiceTests;
+namespace DevTracker.Application.Tests.TaskItemServiceTests;
 
-public class GetTaskItemsTest : TaskItemTestsBase
+public class GetTaskItemsTest : TestBase
 {
     [Fact]
     public async Task GetTaskItem_CallsItemRepository()
