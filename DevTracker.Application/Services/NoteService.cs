@@ -15,6 +15,7 @@ public class NoteService : INoteService
         _noteRepo = noteRepo;
     }
 
+    /// <inheritdoc />
     public async Task<AddNoteReponse> AddNoteAsync(long taskId, string content)
     {
         var note = new Note
@@ -32,6 +33,7 @@ public class NoteService : INoteService
         return new AddNoteReponse(Result.Success);
     }
 
+    /// <inheritdoc />
     public async Task<DeleteNoteResponse> DeleteNoteAsync(long noteId)
     {
         var result = await _noteRepo.DeleteNoteAsync(noteId);
@@ -43,6 +45,7 @@ public class NoteService : INoteService
         return new DeleteNoteResponse(Result.Success);
     }
 
+    /// <inheritdoc />
     public async Task<GetNoteResponse> GetNotesAsync(long taskId)
     {
         var result = await _noteRepo.GetNotesAsync(taskId);
@@ -55,6 +58,7 @@ public class NoteService : INoteService
         return GetNoteResponse.Success(Result.Success, result.Value);
     }
 
+    /// <inheritdoc />
     public async Task<UpdateNoteReponse> UpdateNoteAsync(long noteId, string content)
     {
         var result = await _noteRepo.UpdateNoteAsync(noteId, content);

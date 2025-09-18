@@ -1,10 +1,13 @@
 ﻿using DevTracker.Application.Interfaces;
 using DevTracker.Contracts;
-using DevTracker.Contracts.Requests;
+using DevTracker.Contracts.Requests.TaskItems;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevTracker.API.Controllers;
 
+/// <summary>
+/// Provides endpoints for Task item operations.
+/// </summary>
 [Route("api/v1/[controller]")]
 [ApiController]
 public class TaskItemController : ControllerBase
@@ -16,6 +19,11 @@ public class TaskItemController : ControllerBase
         _taskItemService = taskItemService;
     }
 
+    /// <summary>
+    /// Retrieves all task items.
+    /// </summary>
+    /// <returns> A response containing a collection of task items.
+    /// </returns>
     [HttpGet]
     [Route("GetTasks")]
     public async Task<IActionResult> GetTasks()
@@ -24,6 +32,13 @@ public class TaskItemController : ControllerBase
         return Ok(response);
     }
 
+    /// <summary>
+    /// Adds a new task with the specified details.
+    /// </summary>
+    /// <param name="createTaskItemRequest">A request object containing
+    /// task item details creation</param>
+    /// <returns> An IActionResult that contains the succes state or failure of the action.
+    /// </returns>
     [HttpPost]
     [Route("AddTask")]
     public async Task<IActionResult> AddTask([FromBody] CreateTaskItemRequest createTaskItemRequest)
@@ -38,6 +53,14 @@ public class TaskItemController : ControllerBase
         return Ok("Task Created Succesfully!");
     }
 
+    /// <summary>
+    /// Updates an existing task status.
+    /// </summary>
+    /// <param name="updateTaskItemRequest">
+    /// The request object containing the task identifier and status
+    /// </param>
+    /// <returns>An IActionResult that contains the succes or failure of the action.
+    /// </returns>
     [HttpPut]
     [Route("UpdateStatus")]
     public async Task<IActionResult> UpdateTaskStatus([FromBody] UpdateTaskItemRequest updateTaskItemRequest)
@@ -53,6 +76,13 @@ public class TaskItemController : ControllerBase
         return Ok("Task Updated Succesfully!");
     }
 
+    /// <summary>
+    /// Deletes an existing task.
+    /// </summary>
+    /// <param name="taskId">The identifier of the task item to be deleted
+    /// </param>
+    /// <returns>An IActionResult that contains the succes or failure of the action.
+    /// </returns>
     [HttpDelete]
     [Route("DeleteTask")]
     public async Task<IActionResult> DeleteTask([FromQuery] long taskId)

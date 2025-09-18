@@ -1,5 +1,5 @@
 ﻿using DevTracker.Contracts;
-using DevTracker.Contracts.Requests;
+using DevTracker.Contracts.Requests.TaskItems;
 using DevTracker.Core;
 using DevTracker.Data.Enums;
 using DevTracker.Data.Models;

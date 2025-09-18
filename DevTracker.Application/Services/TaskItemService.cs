@@ -1,6 +1,6 @@
 ﻿using DevTracker.Application.Interfaces;
 using DevTracker.Contracts;
-using DevTracker.Contracts.Requests;
+using DevTracker.Contracts.Requests.TaskItems;
 using DevTracker.Contracts.Responses.TaskItems;
 using DevTracker.Data.Repositories.Interfaces;
 
@@ -15,6 +15,7 @@ public class TaskItemService : ITaskItemService
         _taskItemRepo = taskItemRepo;
     }
 
+    /// <inheritdoc />
     public async Task<CreateTaskItemResponse> CreateTaskItemAsync(CreateTaskItemRequest createTaskItemRequest)
     {
         var result = await _taskItemRepo.CreateTaskItemAsync(createTaskItemRequest.TaskItemTitle);
@@ -27,6 +28,7 @@ public class TaskItemService : ITaskItemService
         return new CreateTaskItemResponse(Result.Success);
     }
 
+    /// <inheritdoc />
     public async Task<DeleteTaskItemResponse> DeleteTaskItemAsync(long taskItemId)
     {
         var result = await _taskItemRepo.DeleteTaskItemAsync(taskItemId);
@@ -39,6 +41,7 @@ public class TaskItemService : ITaskItemService
         return new DeleteTaskItemResponse(Result.Success);
     }
 
+    /// <inheritdoc />
     public async Task<GetTaskItemsResponse> GetTaskItemsAsync()
     {
         var result = await _taskItemRepo.GetTaskItemsAsync();
@@ -52,6 +55,7 @@ public class TaskItemService : ITaskItemService
 
     }
 
+    /// <inheritdoc />
     public async Task<UpdateTaskItemResponse> UpdateTaskStatusAsync(UpdateTaskItemRequest request)
     {
         var result = await _taskItemRepo.UpdateTaskItemStatusAsync(request.TaskId, request.Status);
