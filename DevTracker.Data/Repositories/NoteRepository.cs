@@ -18,6 +18,7 @@ public class NoteRepository : BaseRepository, INoteRepository
 
         if (taskItem == null)
         {
+            _logger.LogError("The task does not exist.");
             return Result<Note>.Failure(ErrorType.NotFound, "Task not Found.");
         }
 
@@ -27,10 +28,12 @@ public class NoteRepository : BaseRepository, INoteRepository
         {
             await _ctx.Notes.AddAsync(note);
             await _ctx.SaveChangesAsync();
+            _logger.LogInformation($"Note with {note.Id} has been added to task item with id {taskItem.Id}!");
             return Result<Note>.Success(note);
         }
         catch (DbUpdateException ex)
         {
+            _logger.LogError(ex.Message);
             return Result<Note>.Failure(ErrorType.Unexpected, ex.Message);
         }
     }
@@ -41,6 +44,7 @@ public class NoteRepository : BaseRepository, INoteRepository
 
         if (note == null)
         {
+            _logger.LogError("The note does not exist.");
             return Result<Note>.Failure(ErrorType.NotFound, "Note not found.");
         }
 
@@ -48,10 +52,12 @@ public class NoteRepository : BaseRepository, INoteRepository
         {
             _ctx.Notes.Remove(note);
             await _ctx.SaveChangesAsync();
+            _logger.LogInformation($"Note with {note.Id} has beed succesfully deleted.");
             return Result<Note>.Success(note);
         }
         catch (DbUpdateException ex)
         {
+            _logger.LogError(ex.Message);
             return Result<Note>.Failure(ErrorType.Unexpected, ex.Message);
         }
     }
@@ -65,6 +71,7 @@ public class NoteRepository : BaseRepository, INoteRepository
         }
         catch (DbUpdateException ex)
         {
+            _logger.LogError(ex.Message);
             return Result<IEnumerable<Note>>.Failure(ErrorType.NotFound, ex.Message);
         }
     }
@@ -74,11 +81,13 @@ public class NoteRepository : BaseRepository, INoteRepository
         var note = _ctx.Notes.FirstOrDefault(note => note.Id == noteId);
         if (note == null)
         {
+            _logger.LogError("Note not found.");
             return Result<Note>.Failure(ErrorType.NotFound, "Note not found.");
         }
 
         if (note.Content == content)
         {
+            _logger.LogError("Update note did not change note content.");
             return Result<Note>.Failure(ErrorType.Validation, "Note content not changed.");
         }
 
@@ -86,10 +95,12 @@ public class NoteRepository : BaseRepository, INoteRepository
         try
         {
             await _ctx.SaveChangesAsync();
+            _logger.LogInformation($"Note with id {note.Id} succesfully updated.");
             return Result<Note>.Success(note);
         }
         catch (DbUpdateException ex)
         {
+            _logger.LogError(ex.Message);
             return Result<Note>.Failure(ErrorType.Unexpected, ex.Message);
         }
     }
