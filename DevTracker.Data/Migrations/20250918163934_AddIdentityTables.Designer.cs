@@ -4,6 +4,7 @@ using DevTracker.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevTracker.Data.Migrations
 {
     [DbContext(typeof(DevTrackerContext))]
-    partial class DevTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20250918163934_AddIdentityTables")]
+    partial class AddIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,34 +24,6 @@ namespace DevTracker.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("DevTracker.Data.Models.Board", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("CreatedById")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("OwnerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("Boards");
-                });
 
             modelBuilder.Entity("DevTracker.Data.Models.Note", b =>
                 {
@@ -66,9 +41,6 @@ namespace DevTracker.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("CreatedById")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("TaskItemId")
                         .HasColumnType("bigint");
 
@@ -76,8 +48,6 @@ namespace DevTracker.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
 
                     b.HasIndex("TaskItemId");
 
@@ -92,17 +62,11 @@ namespace DevTracker.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Colour")
-                        .IsRequired()
-                        .HasMaxLength(9)
-                        .HasColumnType("nvarchar(9)");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("TaskItemId")
+                    b.Property<long>("TaskItemId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -120,40 +84,23 @@ namespace DevTracker.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AssigneeId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("BoardId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("CreatedById")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssigneeId");
-
-                    b.HasIndex("BoardId");
-
-                    b.HasIndex("CreatedById");
 
                     b.ToTable("TaskItems");
                 });
@@ -168,9 +115,6 @@ namespace DevTracker.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<long?>("BoardId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -217,8 +161,6 @@ namespace DevTracker.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BoardId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -364,83 +306,22 @@ namespace DevTracker.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DevTracker.Data.Models.Board", b =>
-                {
-                    b.HasOne("DevTracker.Data.Models.User", "CreatedBy")
-                        .WithMany("CreatedBoards")
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DevTracker.Data.Models.User", "Owner")
-                        .WithMany("Boards")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("Owner");
-                });
-
             modelBuilder.Entity("DevTracker.Data.Models.Note", b =>
                 {
-                    b.HasOne("DevTracker.Data.Models.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DevTracker.Data.Models.TaskItem", "TaskItem")
+                    b.HasOne("DevTracker.Data.Models.TaskItem", null)
                         .WithMany("Notes")
                         .HasForeignKey("TaskItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("TaskItem");
                 });
 
             modelBuilder.Entity("DevTracker.Data.Models.Tag", b =>
                 {
                     b.HasOne("DevTracker.Data.Models.TaskItem", null)
                         .WithMany("Tags")
-                        .HasForeignKey("TaskItemId");
-                });
-
-            modelBuilder.Entity("DevTracker.Data.Models.TaskItem", b =>
-                {
-                    b.HasOne("DevTracker.Data.Models.User", "Assignee")
-                        .WithMany("AssignedTasks")
-                        .HasForeignKey("AssigneeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DevTracker.Data.Models.Board", "Board")
-                        .WithMany("TaskItems")
-                        .HasForeignKey("BoardId")
+                        .HasForeignKey("TaskItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DevTracker.Data.Models.User", "CreatedBy")
-                        .WithMany("CreatedTasks")
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Assignee");
-
-                    b.Navigation("Board");
-
-                    b.Navigation("CreatedBy");
-                });
-
-            modelBuilder.Entity("DevTracker.Data.Models.User", b =>
-                {
-                    b.HasOne("DevTracker.Data.Models.Board", null)
-                        .WithMany("Users")
-                        .HasForeignKey("BoardId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -494,29 +375,11 @@ namespace DevTracker.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DevTracker.Data.Models.Board", b =>
-                {
-                    b.Navigation("TaskItems");
-
-                    b.Navigation("Users");
-                });
-
             modelBuilder.Entity("DevTracker.Data.Models.TaskItem", b =>
                 {
                     b.Navigation("Notes");
 
                     b.Navigation("Tags");
-                });
-
-            modelBuilder.Entity("DevTracker.Data.Models.User", b =>
-                {
-                    b.Navigation("AssignedTasks");
-
-                    b.Navigation("Boards");
-
-                    b.Navigation("CreatedBoards");
-
-                    b.Navigation("CreatedTasks");
                 });
 #pragma warning restore 612, 618
         }
