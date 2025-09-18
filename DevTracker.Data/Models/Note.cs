@@ -11,6 +11,9 @@ public class Note
     public string? Content { get; set; }
     [Required]
     public long TaskItemId { get; set; }
+    public TaskItem? TaskItem { get; set; }
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; } = null;
+    public long CreatedById { get; set; }
+    public User? CreatedBy { get; set; }
 }
