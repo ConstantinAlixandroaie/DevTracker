@@ -20,10 +20,12 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         {
             _ctx.TaskItems.Add(taskItem);
             await _ctx.SaveChangesAsync();
+            _logger.LogInformation($"Task item with {taskItem.Id} has been created!");
             return Result<TaskItem>.Success(taskItem);
         }
         catch (DbUpdateException ex)
         {
+            _logger.LogError(ex.Message);
             return Result<TaskItem>.Failure(ErrorType.Unexpected, ex.Message);
         }
     }
@@ -34,6 +36,7 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
 
         if (taskItem == null)
         {
+            _logger.LogError("The task does not exist.");
             return Result<TaskItem>.Failure(ErrorType.NotFound, "The task does not exist.");
         }
 
@@ -41,10 +44,12 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         {
             _ctx.TaskItems.Remove(taskItem);
             await _ctx.SaveChangesAsync();
+            _logger.LogInformation($"Task item with {taskItem.Id} has been deleted!");
             return Result<TaskItem>.Success(taskItem);
         }
         catch (DbUpdateException ex)
         {
+            _logger.LogError(ex.Message);
             return Result<TaskItem>.Failure(ErrorType.Unexpected, ex.Message);
         }
     }
@@ -58,6 +63,7 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         }
         catch (DbUpdateException ex)
         {
+            _logger.LogError(ex.Message);
             return Result<IEnumerable<TaskItem>>.Failure(ErrorType.Unexpected, ex.Message);
         }
     }
@@ -74,7 +80,8 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
 
         if (taskItem.Status == status)
         {
-            return Result<TaskItem>.Failure(ErrorType.Conflict,"Task Item Status not changed.");
+            _logger.LogError("Update status did not change status value.");
+            return Result<TaskItem>.Failure(ErrorType.Conflict, "Task Item Status not changed.");
         }
 
         taskItem.Status = status;
@@ -83,10 +90,12 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         try
         {
             await _ctx.SaveChangesAsync();
+            _logger.LogInformation($"Task item with {taskItem.Id} has been updated to {status}!");
             return Result<TaskItem>.Success(taskItem);
         }
         catch (DbUpdateException ex)
         {
+            _logger.LogError(ex.Message);
             return Result<TaskItem>.Failure(ErrorType.Unexpected, ex.Message);
         }
     }
