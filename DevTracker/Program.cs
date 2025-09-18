@@ -21,12 +21,16 @@ public static class Program
         builder.Services.AddIdentityApiEndpoints<User>()
                .AddEntityFrameworkStores<DevTrackerContext>()
                .AddDefaultTokenProviders();
+        builder.Services.AddAuthentication();
+        builder.Services.AddAuthorization();
 
         builder.Services.AddScoped<ITaskItemRepository, TaskItemRepository>();
         builder.Services.AddScoped<INoteRepository, NoteRepository>();
+        builder.Services.AddScoped<IBoardRepository, BoardRepository>();
 
         builder.Services.AddScoped<ITaskItemService, TaskItemService>();
         builder.Services.AddScoped<INoteService, NoteService>();
+        builder.Services.AddScoped<IBoardService, BoardService>();
 
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
@@ -42,6 +46,8 @@ public static class Program
                 options.SwaggerEndpoint("/openapi/v1.json", "v1");
             });
         }
+        app.UseAuthentication();
+        app.UseAuthorization();
         app.MapControllers();
         app.MapGroup("api/v1/Identity")
            .MapIdentityApi<User>();
