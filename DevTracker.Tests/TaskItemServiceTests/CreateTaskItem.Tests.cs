@@ -4,9 +4,9 @@ using DevTracker.Core;
 using DevTracker.Data.Models;
 using NSubstitute;
 
-namespace DevTracker.Tests.Application.TaskItemServiceTests;
+namespace DevTracker.Application.Tests.TaskItemServiceTests;
 
-public class CreateTaskItemTests : TaskItemTestsBase
+public class CreateTaskItemTests : TestBase
 {
     [Fact]
     public async Task CreateTaskItem_WithString_ExpectSuccessAsync()

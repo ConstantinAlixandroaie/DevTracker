@@ -4,16 +4,16 @@ using DevTracker.Contracts.Requests;
 using DevTracker.Data.Repositories.Interfaces;
 using NSubstitute;
 
-namespace DevTracker.Tests.Application.TaskItemServiceTests;
+namespace DevTracker.Application.Tests.TaskItemServiceTests;
 
-public abstract class TaskItemTestsBase : IDisposable
+public abstract class TestBase : IDisposable
 {
     protected CreateTaskItemRequest? CreateTaskItemRequest;
     protected int CallsToItaskItemRepository;
     protected ITaskItemRepository _taskItemRepository = Substitute.For<ITaskItemRepository>();
     protected ITaskItemService _sut;
 
-    protected TaskItemTestsBase()
+    protected TestBase()
     {
         _sut = Substitute.For<TaskItemService>(_taskItemRepository);
 

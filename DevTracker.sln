@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.API", "DevTracke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.Application", "DevTracker.Application\DevTracker.Application.csproj", "{3B8BCC24-7E8A-478C-AF12-555392A6F5F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.Tests", "DevTracker.Tests\DevTracker.Tests.csproj", "{44FA0E05-4889-4D09-BBDD-FF704FAC7F5F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.Application.Tests", "DevTracker.Tests\DevTracker.Application.Tests.csproj", "{44FA0E05-4889-4D09-BBDD-FF704FAC7F5F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.Data", "DevTracker.Data\DevTracker.Data.csproj", "{C3860676-EFA3-2060-1482-15B87046A857}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.Core", "DevTracker.Core\DevTracker.Core.csproj", "{8D30CF21-5C30-47DD-B71D-638695156FD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTracker.Domain", "DevTracker.Domain\DevTracker.Domain.csproj", "{9063FC58-1433-1564-02E2-A6872FD3B667}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevTracker.TestFolder", "DevTracker.TestFolder", "{BA49DCDE-4BEC-4C6C-946D-5C2E98FF3146}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +56,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{44FA0E05-4889-4D09-BBDD-FF704FAC7F5F} = {BA49DCDE-4BEC-4C6C-946D-5C2E98FF3146}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BBF5A20-E88A-4ABD-9188-DEACFBEA4F37}

@@ -5,9 +5,9 @@ using DevTracker.Data.Enums;
 using DevTracker.Data.Models;
 using NSubstitute;
 
-namespace DevTracker.Tests.Application.TaskItemServiceTests;
+namespace DevTracker.Application.Tests.TaskItemServiceTests;
 
-public class UpdateTaskStatusTests : TaskItemTestsBase
+public class UpdateTaskStatusTests : TestBase
 {
     protected UpdateTaskItemRequest? _updateTaskItemRequest;
 
