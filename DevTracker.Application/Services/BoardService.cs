@@ -3,26 +3,35 @@ using DevTracker.Contracts;
 using DevTracker.Contracts.Requests.Boards;
 using DevTracker.Contracts.Responses.Boards;
 using DevTracker.Data.Repositories.Interfaces;
+using DevTracker.Domain.Boards;
+using Mapster;
+using MapsterMapper;
 
 namespace DevTracker.Application.Services;
 
 public class BoardService : IBoardService
 {
     private readonly IBoardRepository _boardRepo;
+    private readonly IMapper _mapper;
 
-    public BoardService(IBoardRepository boardRepo)
+    public BoardService(IBoardRepository boardRepo, IMapper mapper)
     {
         _boardRepo = boardRepo;
+        _mapper = mapper;
     }
 
-    public async Task<GetBoardsByUserIdResponse> GetBoardsByUserIdAsync(long userId)
+    public async Task<Response> GetBoardsByUserIdAsync(long userId)
     {
         var result = await _boardRepo.GetBoardsByUserId(userId);
+
         if (!result.IsSuccess)
         {
-            return GetBoardsByUserIdResponse.Failure(Result.Failure, result.Error);
+            return Response.Failure(Result.Failure, result.Error);
         }
-        return GetBoardsByUserIdResponse.Success(Result.Success, result.Value);
+
+        var responseValue = result.Value!.Select(x=>x.Adapt<BoardProjection>());
+
+        return new GetBoardsByUserIdResponse(Result.Success, responseValue);
     }
 
     public async Task<CreateBoardResponse> CreateBoardAsync(CreateBoardRequest request)

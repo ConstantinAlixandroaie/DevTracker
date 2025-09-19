@@ -4,8 +4,10 @@ using DevTracker.Data;
 using DevTracker.Data.Models;
 using DevTracker.Data.Repositories;
 using DevTracker.Data.Repositories.Interfaces;
+using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace DevTracker.API;
 
@@ -17,7 +19,7 @@ public static class Program
         var configuration = builder.Configuration;
         builder.Services.AddDbContext<DevTrackerContext>(options =>
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-        //builder.Services.AddIdentity<User, IdentityRole>();
+        builder.Services.AddMapster();
         builder.Services.AddIdentityApiEndpoints<User>()
                .AddEntityFrameworkStores<DevTrackerContext>()
                .AddDefaultTokenProviders();
@@ -32,7 +34,11 @@ public static class Program
         builder.Services.AddScoped<INoteService, NoteService>();
         builder.Services.AddScoped<IBoardService, BoardService>();
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()
+            .AddJsonOptions(opt =>
+            {
+                opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            }); ;
         builder.Services.AddOpenApi();
 
         var app = builder.Build();

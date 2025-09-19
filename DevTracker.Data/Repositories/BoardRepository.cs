@@ -16,7 +16,13 @@ public class BoardRepository : BaseRepository, IBoardRepository
     {
         try
         {
-            var boards = await _ctx.Boards.AsNoTracking().Where(board => board.OwnerId == userId).ToListAsync();
+            var boards = await _ctx.Boards
+                .Include(x=>x.CreatedBy)
+                .Include(x=>x.Owner)
+                .Include(x=>x.TaskItems)
+                .Where(board => board.OwnerId == userId)
+                .AsNoTracking()
+                .ToListAsync();
             return Result<IEnumerable<Board>>.Success(boards);
         }
         catch (DbUpdateException ex)
@@ -28,15 +34,11 @@ public class BoardRepository : BaseRepository, IBoardRepository
 
     public async Task<Result<Board>> CreateBoardAsync(string boardTitle, long userId)
     {
-        var createdBy = _ctx.Users.FirstOrDefault(user => user.Id == userId);
-
         var board = new Board
         {
             Title = boardTitle,
             CreatedById = userId,
-            CreatedBy = createdBy,
             OwnerId = userId,
-            Owner=createdBy
         };
 
         try
