@@ -1,6 +1,8 @@
-﻿using DevTracker.Application.Interfaces;
+﻿using DevTracker.API.Extensions;
+using DevTracker.Application.Interfaces;
 using DevTracker.Contracts;
 using DevTracker.Contracts.Requests.TaskItems;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevTracker.API.Controllers;
@@ -10,6 +12,7 @@ namespace DevTracker.API.Controllers;
 /// </summary>
 [Route("api/v1/[controller]")]
 [ApiController]
+[Authorize]
 public class TaskItemController : ControllerBase
 {
     private readonly ITaskItemService _taskItemService;
@@ -43,6 +46,15 @@ public class TaskItemController : ControllerBase
     [Route("AddTask")]
     public async Task<IActionResult> AddTask([FromBody] CreateTaskItemRequest createTaskItemRequest)
     {
+        var userId = User.GetUserId();
+        
+        if (userId is null)
+        {
+            return BadRequest();
+        }
+
+        createTaskItemRequest.UserId = (long)userId;
+
         var response = await _taskItemService.CreateTaskItemAsync(createTaskItemRequest);
 
         if (response.Result != Result.Success)

@@ -8,5 +8,6 @@ public class User : IdentityUser<long>
     public IEnumerable<Board>? CreatedBoards { get; set; }
     public IEnumerable<TaskItem>? AssignedTasks { get; set; }
     public IEnumerable<TaskItem>? CreatedTasks { get; set; }
+    public IEnumerable<Note>? CreatedNotes { get; set; }
 }
 

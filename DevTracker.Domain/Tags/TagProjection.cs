@@ -1,6 +1,6 @@
-﻿namespace DevTracker.Data.Models;
+﻿namespace DevTracker.Domain.Tags;
 
-public class Tag
+public class TagProjection
 {
     public long Id { get; set; }
     public string Name { get; set; } = "";

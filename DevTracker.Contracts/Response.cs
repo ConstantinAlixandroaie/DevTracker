@@ -1,4 +1,6 @@
-﻿namespace DevTracker.Contracts;
+﻿using DevTracker.Contracts.Responses.Boards;
+
+namespace DevTracker.Contracts;
 /// <summary>
 /// Base class for responses returned by services.
 /// </summary>
@@ -18,6 +20,9 @@ public class Response
         Result = result;
         ErrorMessage = errorMessage;
     }
+
+    public static Response Failure(Result result, string? error) => new(result, error);
+
 }
 
 public enum Result
