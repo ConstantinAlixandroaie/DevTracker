@@ -1,5 +1,6 @@
 ﻿using DevTracker.API.Helpers;
 using DevTracker.Application.Interfaces;
+using DevTracker.Contracts.Requests.Boards;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +21,8 @@ public class BoardController : ControllerBase
     /// <summary>
     /// Gets the boards associated with the logged in user.
     /// </summary>
-    /// <returns> A response containing a collection of boards></returns>
+    /// <returns> A response containing a collection of boards>
+    /// </returns>
     [HttpGet]
     public async Task<IActionResult> GetBoardsAsync()
     {
@@ -33,5 +35,40 @@ public class BoardController : ControllerBase
         }
 
         return BadRequest();
+    }
+
+    /// <summary>
+    /// Creates a board.
+    /// </summary>
+    /// <returns> A response with the success or failure of the request.
+    /// </returns>
+    [HttpPost]
+    [Route("CreateBoard")]
+    public async Task<IActionResult> CreateBoardAsync([FromBody] string boardTitle)
+    {
+        var userId = User.GetUserId();
+        if (userId is not null)
+        {
+            var request = new CreateBoardRequest
+            {
+                BoardTitle = boardTitle,
+                UserId = (long)userId
+            };
+
+            var response = await _boardService.CreateBoardAsync(request);
+
+            return Ok(response);
+        }
+
+        return BadRequest();
+    }
+
+    [HttpDelete]
+    [Route("DeleteBoard")]
+    public async Task<IActionResult> DeleteBoardAsync([FromQuery] long boardId)
+    {
+        var response = await _boardService.DeleteBoardAsync(boardId);
+
+        return Ok(response);
     }
 }

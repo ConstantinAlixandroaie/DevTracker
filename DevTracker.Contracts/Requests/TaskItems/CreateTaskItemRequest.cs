@@ -5,5 +5,5 @@ namespace DevTracker.Contracts.Requests.TaskItems;
 public class CreateTaskItemRequest
 {
     [Required]
-    public string TaskItemTitle { get; set; } = string.Empty;
+    public string TaskItemTitle { get; set; } = "";
 }

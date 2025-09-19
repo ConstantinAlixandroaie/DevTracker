@@ -6,4 +6,6 @@ namespace DevTracker.Data.Repositories.Interfaces;
 public interface IBoardRepository
 {
     Task<Result<IEnumerable<Board>>> GetBoardsByUserId(long userId);
+    Task<Result<Board>> CreateBoardAsync(string boardTitle, long userId);
+    Task<Result<Board>> DeleteBoardByIdAsync(long taskId);
 }

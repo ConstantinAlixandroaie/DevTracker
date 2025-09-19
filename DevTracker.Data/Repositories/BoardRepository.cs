@@ -24,6 +24,55 @@ public class BoardRepository : BaseRepository, IBoardRepository
             _logger.LogError(ex.Message);
             return Result<IEnumerable<Board>>.Failure(ErrorType.Unexpected, ex.Message);
         }
+    }
 
+    public async Task<Result<Board>> CreateBoardAsync(string boardTitle, long userId)
+    {
+        var createdBy = _ctx.Users.FirstOrDefault(user => user.Id == userId);
+
+        var board = new Board
+        {
+            Title = boardTitle,
+            CreatedById = userId,
+            CreatedBy = createdBy,
+            OwnerId = userId,
+            Owner=createdBy
+        };
+
+        try
+        {
+            _ctx.Boards.Add(board);
+            await _ctx.SaveChangesAsync();
+            return Result<Board>.Success(board);
+        }
+        catch (DbUpdateException ex)
+        {
+            return Result<Board>.Failure(ErrorType.Conflict, ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<Result<Board>> DeleteBoardByIdAsync(long boardId)
+    {
+        var board = _ctx.Boards.FirstOrDefault(taskItem => taskItem.Id == boardId);
+
+        if (board == null)
+        {
+            _logger.LogError("The task does not exist.");
+            return Result<Board>.Failure(ErrorType.NotFound, "The task does not exist.");
+        }
+
+        try
+        {
+            _ctx.Boards.Remove(board);
+            await _ctx.SaveChangesAsync();
+            _logger.LogInformation($"Task item with {board.Id} has been deleted!");
+            return Result<Board>.Success(board);
+        }
+        catch (DbUpdateException ex)
+        {
+            _logger.LogError(ex.Message);
+            return Result<Board>.Failure(ErrorType.Unexpected, ex.Message);
+        }
     }
 }
