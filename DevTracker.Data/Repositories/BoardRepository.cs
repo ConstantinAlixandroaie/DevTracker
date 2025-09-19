@@ -82,6 +82,7 @@ public class BoardRepository : BaseRepository, IBoardRepository
             .Include(x=>x.Owner)
             .Include(x=>x.CreatedBy)
             .Include(x=>x.Users)
+            .Include(x=>x.TaskItems)
             .AsNoTracking()
             .FirstOrDefaultAsync(board => board.Id == boardId);
 

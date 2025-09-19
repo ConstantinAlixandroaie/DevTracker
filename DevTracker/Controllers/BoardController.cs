@@ -37,6 +37,11 @@ public class BoardController : ControllerBase
 
         return BadRequest();
     }
+    /// <summary>
+    /// Gets the specified board.
+    /// </summary>
+    /// <param name="id"> The board Identifier</param>
+    /// <returns>A response containing the board details</returns>
 
     [HttpGet]
     [Route("{id}")]
