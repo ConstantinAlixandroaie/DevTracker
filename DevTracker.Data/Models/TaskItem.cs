@@ -1,17 +1,12 @@
 ﻿using DevTracker.Data.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace DevTracker.Data.Models;
 
 public class TaskItem
 {
-    [Key]
     public long Id { get; private set; }
-    [Required]
-    [StringLength(255)]
     public string Title { get; set; } = "";
     public string Description { get; set; } = "";
-    [Required]
     public Status Status { get; set; } = Status.ToDo;
     public List<Note> Notes { get; set; } = [];
     public List<Tag> Tags { get; set; } = [];

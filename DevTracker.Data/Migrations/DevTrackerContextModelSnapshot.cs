@@ -47,7 +47,7 @@ namespace DevTracker.Data.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Boards");
+                    b.ToTable("Boards", (string)null);
                 });
 
             modelBuilder.Entity("DevTracker.Data.Models.Note", b =>
@@ -81,7 +81,7 @@ namespace DevTracker.Data.Migrations
 
                     b.HasIndex("TaskItemId");
 
-                    b.ToTable("Notes");
+                    b.ToTable("Notes", (string)null);
                 });
 
             modelBuilder.Entity("DevTracker.Data.Models.Tag", b =>
@@ -109,7 +109,7 @@ namespace DevTracker.Data.Migrations
 
                     b.HasIndex("TaskItemId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("DevTracker.Data.Models.TaskItem", b =>
@@ -155,7 +155,7 @@ namespace DevTracker.Data.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("TaskItems");
+                    b.ToTable("TaskItems", (string)null);
                 });
 
             modelBuilder.Entity("DevTracker.Data.Models.User", b =>
