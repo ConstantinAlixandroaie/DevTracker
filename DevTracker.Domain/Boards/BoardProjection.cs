@@ -3,10 +3,8 @@ using DevTracker.Domain.Users;
 
 namespace DevTracker.Domain.Boards;
 
-public class BoardProjection
+public class BoardProjection : BoardLite
 {
-    public long Id { get; set; }
-    public string Title { get; set; } = "";
     public List<TaskItemProjection>? TaskItems { get; set; }
     public UserLite? CreatedBy { get; set; }
     public UserLite? Owner { get; set; }

@@ -17,9 +17,6 @@ public class BoardRepository : BaseRepository, IBoardRepository
         try
         {
             var boards = await _ctx.Boards
-                .Include(x=>x.CreatedBy)
-                .Include(x=>x.Owner)
-                .Include(x=>x.TaskItems)
                 .Where(board => board.OwnerId == userId)
                 .AsNoTracking()
                 .ToListAsync();
@@ -57,7 +54,7 @@ public class BoardRepository : BaseRepository, IBoardRepository
 
     public async Task<Result<Board>> DeleteBoardByIdAsync(long boardId)
     {
-        var board = _ctx.Boards.FirstOrDefault(taskItem => taskItem.Id == boardId);
+        var board = await _ctx.Boards.FirstOrDefaultAsync(b => b.Id == boardId);
 
         if (board == null)
         {
@@ -77,5 +74,23 @@ public class BoardRepository : BaseRepository, IBoardRepository
             _logger.LogError(ex.Message);
             return Result<Board>.Failure(ErrorType.Unexpected, ex.Message);
         }
+    }
+
+    public async Task<Result<Board>> GetBoardAsync(long boardId)
+    {
+        var board = await _ctx.Boards
+            .Include(x=>x.Owner)
+            .Include(x=>x.CreatedBy)
+            .Include(x=>x.Users)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(board => board.Id == boardId);
+
+        if (board == null)
+        {
+            _logger.LogError("The task does not exist.");
+            return Result<Board>.Failure(ErrorType.NotFound, "The task does not exist.");
+        }
+
+        return Result<Board>.Success(board);
     }
 }

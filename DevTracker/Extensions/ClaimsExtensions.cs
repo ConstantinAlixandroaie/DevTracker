@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace DevTracker.API.Helpers;
+namespace DevTracker.API.Extensions;
 
 public static class ClaimsExtensions
 {

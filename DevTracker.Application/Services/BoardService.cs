@@ -27,7 +27,7 @@ public class BoardService : IBoardService
             return Response.Failure(Result.Failure, result.Error);
         }
 
-        var responseValue = result.Value!.Select(x=>x.Adapt<BoardProjection>());
+        var responseValue = result.Value!.Select(x => x.Adapt<BoardLite>());
 
         return new GetBoardsByUserIdResponse(Result.Success, responseValue);
     }
@@ -36,7 +36,7 @@ public class BoardService : IBoardService
     {
         var result = await _boardRepo.CreateBoardAsync(request.BoardTitle, request.UserId);
 
-        if(!result.IsSuccess)
+        if (!result.IsSuccess)
         {
             return Response.Failure(Result.Conflict, result.Error);
         }
@@ -54,5 +54,20 @@ public class BoardService : IBoardService
         }
 
         return new DeleteBoardResponse(Result.Success);
+    }
+
+    public async Task<Response> GetBoardAsync(string id)
+    {
+        var boardId = long.Parse(id);
+        var result = await _boardRepo.GetBoardAsync(boardId);
+
+        if (!result.IsSuccess)
+        {
+            return Response.Failure(Result.NotFound, result.Error);
+        }
+
+        var response = result.Value.Adapt<BoardProjection>();
+
+        return new GetBoardResponse(Result.Success, response);
     }
 }
