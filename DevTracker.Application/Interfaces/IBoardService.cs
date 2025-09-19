@@ -7,6 +7,6 @@ namespace DevTracker.Application.Interfaces;
 public interface IBoardService
 {
     Task<Response> GetBoardsByUserIdAsync(long userId);
-    Task<CreateBoardResponse> CreateBoardAsync(CreateBoardRequest request);
-    Task<DeleteBoardResponse> DeleteBoardAsync(long boardId);
+    Task<Response> CreateBoardAsync(CreateBoardRequest request);
+    Task<Response> DeleteBoardAsync(long boardId);
 }

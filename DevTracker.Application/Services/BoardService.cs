@@ -12,12 +12,10 @@ namespace DevTracker.Application.Services;
 public class BoardService : IBoardService
 {
     private readonly IBoardRepository _boardRepo;
-    private readonly IMapper _mapper;
 
     public BoardService(IBoardRepository boardRepo, IMapper mapper)
     {
         _boardRepo = boardRepo;
-        _mapper = mapper;
     }
 
     public async Task<Response> GetBoardsByUserIdAsync(long userId)
@@ -34,25 +32,25 @@ public class BoardService : IBoardService
         return new GetBoardsByUserIdResponse(Result.Success, responseValue);
     }
 
-    public async Task<CreateBoardResponse> CreateBoardAsync(CreateBoardRequest request)
+    public async Task<Response> CreateBoardAsync(CreateBoardRequest request)
     {
         var result = await _boardRepo.CreateBoardAsync(request.BoardTitle, request.UserId);
 
         if(!result.IsSuccess)
         {
-            return new CreateBoardResponse(Result.Conflict, result.Error);
+            return Response.Failure(Result.Conflict, result.Error);
         }
 
         return new CreateBoardResponse(Result.Success);
     }
 
-    public async Task<DeleteBoardResponse> DeleteBoardAsync(long boardId)
+    public async Task<Response> DeleteBoardAsync(long boardId)
     {
         var result = await _boardRepo.DeleteBoardByIdAsync(boardId);
 
         if (!result.IsSuccess)
         {
-            return new DeleteBoardResponse(Result.Conflict, result.Error);
+            return Response.Failure(Result.Conflict, result.Error);
         }
 
         return new DeleteBoardResponse(Result.Success);

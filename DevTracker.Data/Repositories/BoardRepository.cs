@@ -23,6 +23,7 @@ public class BoardRepository : BaseRepository, IBoardRepository
                 .Where(board => board.OwnerId == userId)
                 .AsNoTracking()
                 .ToListAsync();
+
             return Result<IEnumerable<Board>>.Success(boards);
         }
         catch (DbUpdateException ex)
