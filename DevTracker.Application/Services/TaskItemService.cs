@@ -42,13 +42,13 @@ public class TaskItemService : ITaskItemService
     }
 
     /// <inheritdoc />
-    public async Task<GetTaskItemsResponse> GetTaskItemsAsync()
+    public async Task<Response> GetTaskItemsAsync()
     {
         var result = await _taskItemRepo.GetTaskItemsAsync();
 
         if (!result.IsSuccess)
         {
-            return GetTaskItemsResponse.Failure(Result.Failure, result.Error);
+            return Response.Failure(Result.Failure, result.Error);
         }
 
         return GetTaskItemsResponse.Success(Result.Success, result.Value);

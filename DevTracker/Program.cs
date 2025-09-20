@@ -29,6 +29,7 @@ public static class Program
         builder.Services.AddScoped<ITaskItemRepository, TaskItemRepository>();
         builder.Services.AddScoped<INoteRepository, NoteRepository>();
         builder.Services.AddScoped<IBoardRepository, BoardRepository>();
+        builder.Services.AddScoped<ITagRepository, TagRepository>();
 
         builder.Services.AddScoped<ITaskItemService, TaskItemService>();
         builder.Services.AddScoped<INoteService, NoteService>();

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DevTracker.Data.Repositories;
 
-internal class TagRepository : BaseRepository, ITagRepository
+public class TagRepository : BaseRepository, ITagRepository
 {
     public TagRepository(DevTrackerContext ctx, ILogger<BaseRepository> logger) : base(ctx, logger)
     {
