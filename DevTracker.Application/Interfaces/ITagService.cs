@@ -1,12 +1,13 @@
 ﻿using DevTracker.Contracts;
+using DevTracker.Contracts.Requests.Tags;
 
 namespace DevTracker.Application.Interfaces;
 
 public interface ITagService
 {
-    Task<Response> GetTag();
+    Task<Response> GetTag(long id);
     Task<Response> GetTags();
-    Task<Response> CreateTag();
-    Task<Response> UpdateTag();
-    Task<Response> DeleteTag();
+    Task<Response> CreateTagAsync(CreateTagRequest request);
+    Task<Response> UpdateTag(UpdateTagRequest request);
+    Task<Response> DeleteTagAsync(long id);
 }

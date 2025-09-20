@@ -1,16 +1,16 @@
 ﻿namespace DevTracker.Application.Tests.TagServiceTests;
 
-public class UpdateTagTests
+public class CreateTagTests
 {
     [Fact]
-    public async Task UpdateTag_RepoReturnsFailure_ExpectFailure()
+    public async Task CreateTag_RepoReturnsFailure_ExpectFailure()
     {
         //Arrange
         //Act
         //Assert
     }
     [Fact]
-    public async Task UpdateTag_RepoReturnsSuccess_ExpectSuccess()
+    public async Task CreateTag_RepoReturnsSuccess_ExpectSuccess()
     {
         //Arrange
         //Act

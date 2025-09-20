@@ -1,5 +1,4 @@
 ﻿using DevTracker.Core;
-using DevTracker.Data.Enums;
 using DevTracker.Data.Models;
 using DevTracker.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +17,7 @@ internal class TagRepository : BaseRepository, ITagRepository
         var tag = new Tag
         {
             Name = name.ToLower(),
-            Colour = colour
+            Colour = colour.ToLower()
         };
 
         try
@@ -89,7 +88,7 @@ internal class TagRepository : BaseRepository, ITagRepository
         }
     }
 
-    public async Task<Result<Tag>> UpdateTagAsync(long tagId,string name)
+    public async Task<Result<Tag>> UpdateTagAsync(long tagId, string? name, string? colour)
     {
         var tag = await _ctx.Tags.FirstOrDefaultAsync(x => x.Id == tagId);
 
@@ -98,7 +97,16 @@ internal class TagRepository : BaseRepository, ITagRepository
             return Result<Tag>.Failure(ErrorType.NotFound, "Tag not found.");
         }
 
-        tag.Name = name;
+        if (tag.Name != name && !string.IsNullOrEmpty(name))
+        {
+            tag.Name = name;
+        }
+
+        if (tag.Colour != colour && !string.IsNullOrEmpty(colour))
+        {
+            tag.Colour = colour;
+        }
+
         try
         {
             await _ctx.SaveChangesAsync();
