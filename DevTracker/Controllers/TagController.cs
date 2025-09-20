@@ -28,6 +28,8 @@ public class TagController : ControllerBase
     [Route("create")]
     public async Task<IActionResult> CreateTag()
     {
+        //create tag with name and colour
+        //validate colour to be hex code
         return Ok();
     }
 
@@ -35,6 +37,8 @@ public class TagController : ControllerBase
     [Route("update")]
     public async Task<IActionResult> UpdateTag()
     {
+        //Update tag with name and/or colour
+        //validate colour to be hex code
         return Ok();
     }
 

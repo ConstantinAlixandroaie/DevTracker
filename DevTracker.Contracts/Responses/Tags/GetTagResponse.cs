@@ -1,5 +1,4 @@
-﻿using DevTracker.Data.Models;
-using DevTracker.Domain.Tags;
+﻿using DevTracker.Domain.Tags;
 
 namespace DevTracker.Contracts.Responses.Tags;
 
