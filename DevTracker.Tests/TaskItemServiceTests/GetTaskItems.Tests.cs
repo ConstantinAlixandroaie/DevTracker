@@ -12,11 +12,11 @@ public class GetTaskItemsTest : TestBase
     {
         //Arrange
         var repoResult = Result<IEnumerable<TaskItem>>.Success(new List<TaskItem>());
-        _taskItemRepository.GetTaskItemsAsync()
+        _taskItemRepository.GetTaskItemsAsync(Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.GetTaskItemsAsync();
+        var response = await _sut.GetTaskItemsAsync(1);
 
         //Assert
         Assert.Equal(Result.Success, response.Result);
@@ -28,11 +28,11 @@ public class GetTaskItemsTest : TestBase
     {
         //Arrange
         var repoResult = Result<IEnumerable<TaskItem>>.Failure(ErrorType.Unexpected, ErrorMessage!);
-        _taskItemRepository.GetTaskItemsAsync()
+        _taskItemRepository.GetTaskItemsAsync(Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.GetTaskItemsAsync();
+        var response = await _sut.GetTaskItemsAsync(1);
 
         //Assert
         Assert.Equal(Result.Failure, response.Result);

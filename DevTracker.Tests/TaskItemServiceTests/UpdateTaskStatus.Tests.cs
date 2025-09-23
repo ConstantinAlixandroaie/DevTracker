@@ -34,7 +34,7 @@ public class UpdateTaskStatusTests : TestBase
         var response = await _sut.UpdateTaskStatusAsync(_updateTaskItemRequest!);
 
         //Assert
-        Assert.Equal(Result.Failure, response.Result);
+        Assert.Equal(Result.NotFound, response.Result);
         Assert.Equal(ErrorMessage, response.ErrorMessage);
     }
 }

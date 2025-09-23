@@ -1,4 +1,5 @@
 ﻿using DevTracker.Contracts;
+using DevTracker.Contracts.Requests.Notes;
 using DevTracker.Core;
 using DevTracker.Data.Models;
 using NSubstitute;
@@ -18,11 +19,11 @@ public class AddNoteTests : TestBase
 
         var repoResult = Result<Note>.Failure(ErrorType.Validation, ErrorMessage!);
 
-        _noteRepository.AddNoteAsync(Arg.Any<Note>(), Arg.Any<long>())
+        _noteRepository.AddNoteAsync(Arg.Any<Note>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.AddNoteAsync(TaskId, NoteContent!);
+        var response = await _sut.AddNoteAsync(AddRequest!);
 
         //Assert
         Assert.Equal(ErrorMessage, response.ErrorMessage);
@@ -39,11 +40,11 @@ public class AddNoteTests : TestBase
 
         var repoResult = Result<Note>.Failure(ErrorType.Validation, ErrorMessage!);
 
-        _noteRepository.AddNoteAsync(Arg.Any<Note>(), Arg.Any<long>())
+        _noteRepository.AddNoteAsync(Arg.Any<Note>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.AddNoteAsync(TaskId, NoteContent!);
+        var response = await _sut.AddNoteAsync(AddRequest!);
 
         //Assert
         Assert.Equal(ErrorMessage, response.ErrorMessage);
@@ -58,11 +59,11 @@ public class AddNoteTests : TestBase
         Setup(noteContent: noteContent);
         var repoResult = Result<Note>.Success(new Note());
 
-        _noteRepository.AddNoteAsync(Arg.Any<Note>(), Arg.Any<long>())
+        _noteRepository.AddNoteAsync(Arg.Any<Note>())
           .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.AddNoteAsync(TaskId, NoteContent!);
+        var response = await _sut.AddNoteAsync(AddRequest!);
 
         //Assert
         Assert.Null(response.ErrorMessage);
