@@ -4,6 +4,7 @@ using DevTracker.Contracts.Requests.Notes;
 using DevTracker.Contracts.Responses.Notes;
 using DevTracker.Data.Models;
 using DevTracker.Data.Repositories.Interfaces;
+using DevTracker.Domain.Notes;
 
 namespace DevTracker.Application.Services;
 
@@ -64,7 +65,7 @@ public class NoteService : INoteService
     /// <inheritdoc />
     public async Task<UpdateNoteReponse> UpdateNoteAsync(UpdateNoteRequest request)
     {
-        var result = await _noteRepo.UpdateNoteAsync(request.NoteId, request.Content,request.UserId);
+        var result = await _noteRepo.UpdateNoteAsync(request.NoteId, request.Content, request.UserId);
 
         if (!result.IsSuccess)
         {

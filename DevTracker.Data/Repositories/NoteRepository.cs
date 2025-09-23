@@ -74,7 +74,7 @@ public class NoteRepository : BaseRepository, INoteRepository
         }
     }
 
-    public async Task<Result<Note>> UpdateNoteAsync(long noteId, string content,long userId)
+    public async Task<Result<Note>> UpdateNoteAsync(long noteId, string content, long userId)
     {
         var note = _ctx.Notes.FirstOrDefault(note => note.Id == noteId);
         if (note == null)
