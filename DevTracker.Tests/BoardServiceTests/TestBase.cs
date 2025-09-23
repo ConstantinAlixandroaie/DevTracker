@@ -1,7 +1,6 @@
 ﻿using DevTracker.Application.Interfaces;
 using DevTracker.Application.Services;
 using DevTracker.Contracts.Requests.Boards;
-using DevTracker.Data.Repositories;
 using DevTracker.Data.Repositories.Interfaces;
 using NSubstitute;
 

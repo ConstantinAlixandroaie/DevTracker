@@ -5,7 +5,6 @@ using DevTracker.Contracts.Responses.Boards;
 using DevTracker.Data.Repositories.Interfaces;
 using DevTracker.Domain.Boards;
 using Mapster;
-using MapsterMapper;
 
 namespace DevTracker.Application.Services;
 

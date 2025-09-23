@@ -18,7 +18,7 @@ public class GetBoardTests : TestBase
         //Act
         var response = await _sut.GetBoardAsync("1");
         //Assert
-        Assert.Equal(Result.Failure, response.Result);
+        Assert.Equal(Result.NotFound, response.Result);
         Assert.Equal(errorMessage, response.ErrorMessage);
     }
 
@@ -26,7 +26,7 @@ public class GetBoardTests : TestBase
     public async Task GetBoards_RepoReturnsSuccess_ExpectSuccess()
     {
         //Arrange
-        var repoResult = Result<Board>.Success([]);
+        var repoResult = Result<Board>.Success(new Board());
         _boardRepo.GetBoardAsync(Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
         //Act
