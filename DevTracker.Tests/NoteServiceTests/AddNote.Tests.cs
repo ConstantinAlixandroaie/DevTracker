@@ -1,5 +1,4 @@
 ﻿using DevTracker.Contracts;
-using DevTracker.Contracts.Requests.Notes;
 using DevTracker.Core;
 using DevTracker.Data.Models;
 using NSubstitute;

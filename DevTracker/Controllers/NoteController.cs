@@ -4,7 +4,6 @@ using DevTracker.Contracts;
 using DevTracker.Contracts.Requests.Notes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace DevTracker.API.Controllers;
 
