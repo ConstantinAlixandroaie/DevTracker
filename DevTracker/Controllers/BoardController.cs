@@ -52,6 +52,7 @@ public class BoardController : ControllerBase
         {
             return NotFound();
         }
+
         return Ok(response);
     }
 
@@ -74,6 +75,10 @@ public class BoardController : ControllerBase
             };
 
             var response = await _boardService.CreateBoardAsync(request);
+            if (response.Result == Result.Conflict)
+            {
+                return Conflict();
+            }
 
             return Ok(response);
         }
@@ -91,6 +96,10 @@ public class BoardController : ControllerBase
     public async Task<IActionResult> DeleteBoardAsync([FromQuery] long boardId)
     {
         var response = await _boardService.DeleteBoardAsync(boardId);
+        if (response.Result == Result.Conflict)
+        {
+            return Conflict();
+        }
 
         return Ok(response);
     }
