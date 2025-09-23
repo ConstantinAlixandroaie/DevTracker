@@ -2,7 +2,9 @@
 using DevTracker.Contracts;
 using DevTracker.Contracts.Requests.TaskItems;
 using DevTracker.Contracts.Responses.TaskItems;
+using DevTracker.Core;
 using DevTracker.Data.Repositories.Interfaces;
+using System.Reflection.Metadata.Ecma335;
 
 namespace DevTracker.Application.Services;
 
@@ -42,9 +44,9 @@ public class TaskItemService : ITaskItemService
     }
 
     /// <inheritdoc />
-    public async Task<Response> GetTaskItemsAsync()
+    public async Task<Response> GetTaskItemsAsync(long boardId)
     {
-        var result = await _taskItemRepo.GetTaskItemsAsync();
+        var result = await _taskItemRepo.GetTaskItemsAsync(boardId);
 
         if (!result.IsSuccess)
         {
@@ -60,10 +62,21 @@ public class TaskItemService : ITaskItemService
     {
         var result = await _taskItemRepo.UpdateTaskItemStatusAsync(request.TaskId, request.Status);
 
-        if (!result.IsSuccess)
+        if (result.ErrorType == ErrorType.NotFound)
+        {
+            return new UpdateTaskItemResponse(Result.NotFound, result.Error);
+        }
+
+        if (result.ErrorType == ErrorType.Conflict)
+        {
+            return new UpdateTaskItemResponse(Result.Conflict, result.Error);
+        }
+
+        if (result.ErrorType == ErrorType.Unexpected)
         {
             return new UpdateTaskItemResponse(Result.Failure, result.Error);
         }
+
         return new UpdateTaskItemResponse(Result.Success);
     }
 }

@@ -21,7 +21,7 @@ public interface ITaskItemService
     /// </summary>
     /// <returns> A task result that contains a <see cref="GetTaskItemsResponse"/> 
     /// with the collection of task items.</returns>
-    Task<Response> GetTaskItemsAsync();
+    Task<Response> GetTaskItemsAsync(long boardId);
 
     /// <summary>
     /// Deletes the specified task item.

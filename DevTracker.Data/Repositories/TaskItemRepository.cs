@@ -54,11 +54,11 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         }
     }
 
-    public async Task<Result<IEnumerable<TaskItem>>> GetTaskItemsAsync()
+    public async Task<Result<IEnumerable<TaskItem>>> GetTaskItemsAsync(long boardId)
     {
         try
         {
-            var taskItems = await _ctx.TaskItems.AsNoTracking().ToListAsync();
+            var taskItems = await _ctx.TaskItems.Where(x => x.BoardId == boardId).AsNoTracking().ToListAsync();
             return Result<IEnumerable<TaskItem>>.Success(taskItems);
         }
         catch (DbUpdateException ex)
