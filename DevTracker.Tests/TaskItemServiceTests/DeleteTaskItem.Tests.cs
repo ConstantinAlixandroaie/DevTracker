@@ -11,7 +11,7 @@ public class DeleteTaskItemTests : TestBase
     public async Task DeleteTaskItem_RepoReturnsFailure_ExpectFailure()
     {
         //Arrange
-        var repoResult = Result<TaskItem>.Failure(ErrorType.Unexpected, ErrorMessage);
+        var repoResult = Result<TaskItem>.Failure(ErrorType.Unexpected, ErrorMessage!);
 
         _taskItemRepository.DeleteTaskItemAsync(Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));

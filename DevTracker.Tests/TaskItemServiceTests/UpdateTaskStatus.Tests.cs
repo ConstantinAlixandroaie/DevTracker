@@ -16,7 +16,7 @@ public class UpdateTaskStatusTests : TestBase
         _taskItemRepository.UpdateTaskItemStatusAsync(Arg.Any<long>(), Arg.Any<Status>())
              .Returns(Task.FromResult(repoResult));
         //Act
-        var response = await _sut.UpdateTaskStatusAsync(_updateTaskItemRequest);
+        var response = await _sut.UpdateTaskStatusAsync(_updateTaskItemRequest!);
 
         //Assert
         Assert.Equal(Result.Success, response.Result);
@@ -27,11 +27,11 @@ public class UpdateTaskStatusTests : TestBase
     public async Task UpdateTaskStatus_RepoReturnsFailure_ExpectFailureAsync()
     {
         //Arrange
-        var repoResult = Result<TaskItem>.Failure(ErrorType.NotFound, ErrorMessage);
+        var repoResult = Result<TaskItem>.Failure(ErrorType.NotFound, ErrorMessage!);
         _taskItemRepository.UpdateTaskItemStatusAsync(Arg.Any<long>(), Arg.Any<Status>())
              .Returns(Task.FromResult(repoResult));
         //Act
-        var response = await _sut.UpdateTaskStatusAsync(_updateTaskItemRequest);
+        var response = await _sut.UpdateTaskStatusAsync(_updateTaskItemRequest!);
 
         //Assert
         Assert.Equal(Result.Failure, response.Result);

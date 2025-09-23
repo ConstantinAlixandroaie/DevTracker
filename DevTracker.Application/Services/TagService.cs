@@ -31,8 +31,12 @@ public class TagService : ITagService
     public async Task<Response> DeleteTagAsync(long id)
     {
         var result = await _tagRepo.DeleteTagAsync(id);
+        if (!result.IsSuccess)
+        {
+            return Response.Failure(Result.Failure, result.Error);
+        }
 
-        throw new NotImplementedException();
+        return new DeleteTagResponse(Result.Success);
     }
 
     public async Task<Response> GetTag(long id)

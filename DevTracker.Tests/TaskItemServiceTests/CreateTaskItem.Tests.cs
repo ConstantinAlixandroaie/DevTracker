@@ -27,7 +27,7 @@ public class CreateTaskItemTests : TestBase
     public async Task CreateTaskItem_RepoReturnsFailure_ExpectFailAsync()
     {
         //Arrange
-        var repoResult = Result<TaskItem>.Failure(ErrorType.Validation, ErrorMessage);
+        var repoResult = Result<TaskItem>.Failure(ErrorType.Validation, ErrorMessage!);
         _taskItemRepository.CreateTaskItemAsync(Arg.Any<string>())
             .Returns(Task.FromResult(repoResult));
 

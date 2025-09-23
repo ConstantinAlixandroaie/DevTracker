@@ -27,7 +27,7 @@ public class GetTaskItemsTest : TestBase
     public async Task GetTaskItem_RepositoryReturnsFailure_ExpectFailure()
     {
         //Arrange
-        var repoResult = Result<IEnumerable<TaskItem>>.Failure(ErrorType.Unexpected, ErrorMessage);
+        var repoResult = Result<IEnumerable<TaskItem>>.Failure(ErrorType.Unexpected, ErrorMessage!);
         _taskItemRepository.GetTaskItemsAsync()
             .Returns(Task.FromResult(repoResult));
 
