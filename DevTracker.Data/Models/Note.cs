@@ -10,4 +10,6 @@ public class Note
     public DateTime? UpdatedAt { get; set; } = null;
     public long CreatedById { get; set; }
     public User? CreatedBy { get; set; }
+    public long UpdatedById { get; set; }
+    public User? UpdatedBy { get; set; }
 }

@@ -1,7 +1,10 @@
-﻿using DevTracker.Application.Interfaces;
+﻿using DevTracker.API.Extensions;
+using DevTracker.Application.Interfaces;
 using DevTracker.Contracts;
 using DevTracker.Contracts.Requests.Notes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace DevTracker.API.Controllers;
 
@@ -10,6 +13,7 @@ namespace DevTracker.API.Controllers;
 /// </summary>
 [Route("api/v1/[controller]")]
 [ApiController]
+[Authorize]
 public class NoteController : ControllerBase
 {
     private readonly INoteService _noteService;
@@ -48,9 +52,18 @@ public class NoteController : ControllerBase
     /// </returns>
     [HttpPost]
     [Route("addNote")]
-    public async Task<IActionResult> AddNote([FromBody] AddNoteRequest request)
+    public async Task<IActionResult> AddNoteAsync([FromBody] AddNoteRequest request)
     {
-        var response = await _noteService.AddNoteAsync(request.TaskId, request.Content);
+        var userId = User.GetUserId();
+        if (userId is null)
+        {
+            return BadRequest();
+        }
+
+        request.UserId = (long)userId;
+
+        var response = await _noteService.AddNoteAsync(request);
+
         if (response.Result != Result.Success)
         {
             return BadRequest(response.ErrorMessage);
@@ -70,8 +83,16 @@ public class NoteController : ControllerBase
     [Route("updateNote")]
     public async Task<IActionResult> UpdateNote([FromBody] UpdateNoteRequest request)
     {
+        var userId = User.GetUserId();
+        if (userId is null)
+        {
+            return BadRequest();
+        }
 
-        var response = await _noteService.UpdateNoteAsync(request.NoteId, request.Content);
+        request.UserId = (long)userId;
+
+        var response = await _noteService.UpdateNoteAsync(request);
+
         if (response.Result != Result.Success)
         {
             return BadRequest(response.ErrorMessage);

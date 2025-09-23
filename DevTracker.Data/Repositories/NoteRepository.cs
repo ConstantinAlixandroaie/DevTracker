@@ -12,17 +12,15 @@ public class NoteRepository : BaseRepository, INoteRepository
     {
     }
 
-    public async Task<Result<Note>> AddNoteAsync(Note note, long taskId)
+    public async Task<Result<Note>> AddNoteAsync(Note note)
     {
-        var taskItem = _ctx.TaskItems.AsNoTracking().FirstOrDefault(taskItem => taskItem.Id == taskId);
+        var taskItem = _ctx.TaskItems.AsNoTracking().FirstOrDefault(taskItem => taskItem.Id == note.TaskItemId);
 
         if (taskItem == null)
         {
             _logger.LogError("The task does not exist.");
             return Result<Note>.Failure(ErrorType.NotFound, "Task not Found.");
         }
-
-        note.TaskItemId = taskItem.Id;
 
         try
         {
@@ -76,7 +74,7 @@ public class NoteRepository : BaseRepository, INoteRepository
         }
     }
 
-    public async Task<Result<Note>> UpdateNoteAsync(long noteId, string content)
+    public async Task<Result<Note>> UpdateNoteAsync(long noteId, string content,long userId)
     {
         var note = _ctx.Notes.FirstOrDefault(note => note.Id == noteId);
         if (note == null)
@@ -92,6 +90,9 @@ public class NoteRepository : BaseRepository, INoteRepository
         }
 
         note.Content = content;
+        note.UpdatedAt = DateTime.UtcNow;
+        note.UpdatedById = userId;
+
         try
         {
             await _ctx.SaveChangesAsync();

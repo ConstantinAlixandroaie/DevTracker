@@ -1,5 +1,6 @@
 ﻿using DevTracker.Application.Interfaces;
 using DevTracker.Contracts;
+using DevTracker.Contracts.Requests.Notes;
 using DevTracker.Contracts.Responses.Notes;
 using DevTracker.Data.Models;
 using DevTracker.Data.Repositories.Interfaces;
@@ -16,14 +17,16 @@ public class NoteService : INoteService
     }
 
     /// <inheritdoc />
-    public async Task<AddNoteReponse> AddNoteAsync(long taskId, string content)
+    public async Task<AddNoteReponse> AddNoteAsync(AddNoteRequest request)
     {
         var note = new Note
         {
-            Content = content
+            Content = request.Content,
+            CreatedById = request.UserId,
+            TaskItemId = request.TaskItemId
         };
 
-        var result = await _noteRepo.AddNoteAsync(note, taskId);
+        var result = await _noteRepo.AddNoteAsync(note);
 
         if (!result.IsSuccess)
         {
@@ -59,9 +62,10 @@ public class NoteService : INoteService
     }
 
     /// <inheritdoc />
-    public async Task<UpdateNoteReponse> UpdateNoteAsync(long noteId, string content)
+    public async Task<UpdateNoteReponse> UpdateNoteAsync(UpdateNoteRequest request)
     {
-        var result = await _noteRepo.UpdateNoteAsync(noteId, content);
+        var result = await _noteRepo.UpdateNoteAsync(request.NoteId, request.Content,request.UserId);
+
         if (!result.IsSuccess)
         {
             return UpdateNoteReponse.Failure(Result.Failure, result.Error);

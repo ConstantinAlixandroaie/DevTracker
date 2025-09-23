@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DevTracker.Contracts.Requests.Notes;
 
 public class AddNoteRequest
 {
     [Required]
-    public long TaskId { get; set; }
+    public long TaskItemId { get; set; }
     [Required]
-    public string Content { get; set; }
+    public string Content { get; set; } = "";
+    [JsonIgnore]
+    public long UserId { get; set; }
 }
