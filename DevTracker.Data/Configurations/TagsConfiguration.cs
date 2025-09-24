@@ -15,5 +15,7 @@ public class TagsConfiguration : IEntityTypeConfiguration<Tag>
             .IsRequired();
         b.Property(x => x.Colour)
             .HasMaxLength(9);
+        b.HasIndex(i => new { i.Name, i.Colour })
+            .IsUnique();
     }
 }

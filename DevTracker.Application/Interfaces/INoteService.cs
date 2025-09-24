@@ -1,4 +1,5 @@
-﻿using DevTracker.Contracts.Responses.Notes;
+﻿using DevTracker.Contracts.Requests.Notes;
+using DevTracker.Contracts.Responses.Notes;
 
 namespace DevTracker.Application.Interfaces;
 /// <summary>
@@ -8,14 +9,11 @@ namespace DevTracker.Application.Interfaces;
 public interface INoteService
 {
     /// <summary>
-    /// Adds a new note to the specified task.
+    /// Adds a note to the specified task.
     /// </summary>
-    /// <param name="taskId">The identifier of the task to which the note will be added</param>
-    /// <param name="content">The content of the note</param>
-    /// <returns>The task result that contains an <see cref="AddNoteReponse"/> 
-    /// with details about the created note
-    /// </returns>
-    Task<AddNoteReponse> AddNoteAsync(long taskId, string content);
+    /// <param name="request">A request object containing the not details like <see cref="AddNoteRequest"/></param>
+    /// <returns>A response object containing the success or failure of the operation <see cref="AddNoteReponse"/></returns>
+    Task<AddNoteReponse> AddNoteAsync(AddNoteRequest request);
 
     /// <summary>
     /// Retrieves all notes associated with the specified task.
@@ -34,7 +32,7 @@ public interface INoteService
     /// <returns>A task result contains an <see cref="UpdateNoteReponse"/>
     /// with the updated note details.
     /// </returns>
-    Task<UpdateNoteReponse> UpdateNoteAsync(long noteId, string content);
+    Task<UpdateNoteReponse> UpdateNoteAsync(UpdateNoteRequest request);
 
     /// <summary>
     /// Deletes the specified note.

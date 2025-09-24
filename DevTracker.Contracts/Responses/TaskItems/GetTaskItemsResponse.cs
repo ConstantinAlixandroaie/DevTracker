@@ -11,5 +11,4 @@ public class GetTaskItemsResponse : Response
         TaskItems = taskItems;
     }
     public static GetTaskItemsResponse Success(Result result, IEnumerable<TaskItem>? taskItems) => new(result, taskItems, null);
-    public static GetTaskItemsResponse Failure(Result result, string? error) => new(result, null, error);
 }

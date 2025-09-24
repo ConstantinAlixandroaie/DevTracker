@@ -1,4 +1,5 @@
-﻿using DevTracker.Contracts.Requests.TaskItems;
+﻿using DevTracker.Contracts;
+using DevTracker.Contracts.Requests.TaskItems;
 using DevTracker.Contracts.Responses.TaskItems;
 
 namespace DevTracker.Application.Interfaces;
@@ -20,7 +21,7 @@ public interface ITaskItemService
     /// </summary>
     /// <returns> A task result that contains a <see cref="GetTaskItemsResponse"/> 
     /// with the collection of task items.</returns>
-    Task<GetTaskItemsResponse> GetTaskItemsAsync();
+    Task<Response> GetTaskItemsAsync(long boardId);
 
     /// <summary>
     /// Deletes the specified task item.

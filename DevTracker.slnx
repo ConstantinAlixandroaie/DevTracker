@@ -1,7 +1,11 @@
 <Solution>
+  <Folder Name="/DevTracker.Tests/">
+    <Project Path="DevTracker.Tests/DevTracker.Application.Tests.csproj" />
+  </Folder>
   <Project Path="DevTracker.Application/DevTracker.Application.csproj" />
+  <Project Path="DevTracker.Contracts/DevTracker.Contracts.csproj" />
+  <Project Path="DevTracker.Core/DevTracker.Core.csproj" />
   <Project Path="DevTracker.Data/DevTracker.Data.csproj" />
   <Project Path="DevTracker.Domain/DevTracker.Domain.csproj" />
-  <Project Path="DevTracker.Tests/DevTracker.Tests.csproj" />
   <Project Path="DevTracker/DevTracker.API.csproj" />
 </Solution>

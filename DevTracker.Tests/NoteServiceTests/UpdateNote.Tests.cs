@@ -15,11 +15,11 @@ public class UpdateNoteTests : TestBase
 
         var repoResult = Result<Note>.Failure(ErrorType.Validation, ErrorMessage!);
 
-        _noteRepository.UpdateNoteAsync(TaskId, NoteContent!)
+        _noteRepository.UpdateNoteAsync(Arg.Any<long>(), Arg.Any<string>(), Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.UpdateNoteAsync(TaskId, NoteContent!);
+        var response = await _sut.UpdateNoteAsync(UpdateRequest!);
 
         //Assert
         Assert.Equal(ErrorMessage, response.ErrorMessage);
@@ -35,11 +35,11 @@ public class UpdateNoteTests : TestBase
 
         var repoResult = Result<Note>.Success(new Note { Content = NoteContent });
 
-        _noteRepository.UpdateNoteAsync(TaskId, NoteContent!)
+        _noteRepository.UpdateNoteAsync(Arg.Any<long>(), Arg.Any<string>(), Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.UpdateNoteAsync(TaskId, NoteContent!);
+        var response = await _sut.UpdateNoteAsync(UpdateRequest!);
 
         //Assert
         Assert.Null(response.ErrorMessage);

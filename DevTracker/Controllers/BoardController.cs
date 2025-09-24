@@ -37,6 +37,11 @@ public class BoardController : ControllerBase
 
         return BadRequest();
     }
+    /// <summary>
+    /// Gets the specified board.
+    /// </summary>
+    /// <param name="id"> The board Identifier</param>
+    /// <returns>A response containing the board details</returns>
 
     [HttpGet]
     [Route("{id}")]
@@ -47,6 +52,7 @@ public class BoardController : ControllerBase
         {
             return NotFound();
         }
+
         return Ok(response);
     }
 
@@ -69,6 +75,10 @@ public class BoardController : ControllerBase
             };
 
             var response = await _boardService.CreateBoardAsync(request);
+            if (response.Result == Result.Conflict)
+            {
+                return Conflict();
+            }
 
             return Ok(response);
         }
@@ -86,6 +96,10 @@ public class BoardController : ControllerBase
     public async Task<IActionResult> DeleteBoardAsync([FromQuery] long boardId)
     {
         var response = await _boardService.DeleteBoardAsync(boardId);
+        if (response.Result == Result.Conflict)
+        {
+            return Conflict();
+        }
 
         return Ok(response);
     }

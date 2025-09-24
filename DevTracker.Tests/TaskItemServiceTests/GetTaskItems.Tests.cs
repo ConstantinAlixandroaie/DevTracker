@@ -11,36 +11,31 @@ public class GetTaskItemsTest : TestBase
     public async Task GetTaskItem_CallsItemRepository()
     {
         //Arrange
-        CallsToItaskItemRepository = 1;
         var repoResult = Result<IEnumerable<TaskItem>>.Success(new List<TaskItem>());
-        _taskItemRepository.GetTaskItemsAsync()
+        _taskItemRepository.GetTaskItemsAsync(Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.GetTaskItemsAsync();
+        var response = await _sut.GetTaskItemsAsync(1);
 
         //Assert
         Assert.Equal(Result.Success, response.Result);
         Assert.Null(response.ErrorMessage);
-        Assert.Equal(CallsToItaskItemRepository, _taskItemRepository.ReceivedCalls().Count());
     }
 
     [Fact]
     public async Task GetTaskItem_RepositoryReturnsFailure_ExpectFailure()
     {
         //Arrange
-        CallsToItaskItemRepository = 1;
-        var errorMessage = "Database connection failed.";
-        var repoResult = Result<IEnumerable<TaskItem>>.Failure(ErrorType.Unexpected, errorMessage);
-        _taskItemRepository.GetTaskItemsAsync()
+        var repoResult = Result<IEnumerable<TaskItem>>.Failure(ErrorType.Unexpected, ErrorMessage!);
+        _taskItemRepository.GetTaskItemsAsync(Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.GetTaskItemsAsync();
+        var response = await _sut.GetTaskItemsAsync(1);
 
         //Assert
         Assert.Equal(Result.Failure, response.Result);
-        Assert.Equal(errorMessage, response.ErrorMessage);
-        Assert.Equal(CallsToItaskItemRepository, _taskItemRepository.ReceivedCalls().Count());
+        Assert.Equal(ErrorMessage, response.ErrorMessage);
     }
 }

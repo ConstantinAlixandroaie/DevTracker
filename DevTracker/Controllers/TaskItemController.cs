@@ -28,10 +28,15 @@ public class TaskItemController : ControllerBase
     /// <returns> A response containing a collection of task items.
     /// </returns>
     [HttpGet]
-    [Route("GetTasks")]
-    public async Task<IActionResult> GetTasks()
+    [Route("GetTasks/{boardId}")]
+    public async Task<IActionResult> GetTasksAsync(long boardId)
     {
-        var response = await _taskItemService.GetTaskItemsAsync();
+        var response = await _taskItemService.GetTaskItemsAsync(boardId);
+        if (response.Result == Result.Failure)
+        {
+            return NotFound();
+        }
+
         return Ok(response);
     }
 
@@ -44,10 +49,10 @@ public class TaskItemController : ControllerBase
     /// </returns>
     [HttpPost]
     [Route("AddTask")]
-    public async Task<IActionResult> AddTask([FromBody] CreateTaskItemRequest createTaskItemRequest)
+    public async Task<IActionResult> AddTaskAsync([FromBody] CreateTaskItemRequest createTaskItemRequest)
     {
         var userId = User.GetUserId();
-        
+
         if (userId is null)
         {
             return BadRequest();
@@ -62,7 +67,7 @@ public class TaskItemController : ControllerBase
             return Conflict(response.ErrorMessage);
         }
 
-        return Ok("Task Created Succesfully!");
+        return Ok(response.Result);
     }
 
     /// <summary>
@@ -75,7 +80,7 @@ public class TaskItemController : ControllerBase
     /// </returns>
     [HttpPut]
     [Route("UpdateStatus")]
-    public async Task<IActionResult> UpdateTaskStatus([FromBody] UpdateTaskItemRequest updateTaskItemRequest)
+    public async Task<IActionResult> UpdateTaskStatusAsync([FromBody] UpdateTaskItemRequest updateTaskItemRequest)
     {
 
         var response = await _taskItemService.UpdateTaskStatusAsync(updateTaskItemRequest);
@@ -84,8 +89,16 @@ public class TaskItemController : ControllerBase
         {
             return BadRequest(response.ErrorMessage);
         }
+        if (response.Result == Result.NotFound)
+        {
+            return NotFound(response.ErrorMessage);
+        }
+        if (response.Result == Result.Conflict)
+        {
+            return Conflict(response.ErrorMessage);
+        }
 
-        return Ok("Task Updated Succesfully!");
+        return Ok(response.Result);
     }
 
     /// <summary>
@@ -97,13 +110,8 @@ public class TaskItemController : ControllerBase
     /// </returns>
     [HttpDelete]
     [Route("DeleteTask")]
-    public async Task<IActionResult> DeleteTask([FromQuery] long taskId)
+    public async Task<IActionResult> DeleteTaskAsync([FromQuery] long taskId)
     {
-        if (taskId <= 0)
-        {
-            return BadRequest("Task Id not found!");
-        }
-
         var response = await _taskItemService.DeleteTaskItemAsync(taskId);
 
         if (response.Result != Result.Success)
@@ -111,6 +119,6 @@ public class TaskItemController : ControllerBase
             return BadRequest(response.ErrorMessage);
         }
 
-        return Ok("You deleted a task!");
+        return Ok(response.Result);
     }
 }

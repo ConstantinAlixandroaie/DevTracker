@@ -1,6 +1,4 @@
-﻿using DevTracker.Contracts.Responses.Boards;
-
-namespace DevTracker.Contracts;
+﻿namespace DevTracker.Contracts;
 /// <summary>
 /// Base class for responses returned by services.
 /// </summary>

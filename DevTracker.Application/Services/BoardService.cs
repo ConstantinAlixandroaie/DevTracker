@@ -5,7 +5,6 @@ using DevTracker.Contracts.Responses.Boards;
 using DevTracker.Data.Repositories.Interfaces;
 using DevTracker.Domain.Boards;
 using Mapster;
-using MapsterMapper;
 
 namespace DevTracker.Application.Services;
 
@@ -13,7 +12,7 @@ public class BoardService : IBoardService
 {
     private readonly IBoardRepository _boardRepo;
 
-    public BoardService(IBoardRepository boardRepo, IMapper mapper)
+    public BoardService(IBoardRepository boardRepo)
     {
         _boardRepo = boardRepo;
     }

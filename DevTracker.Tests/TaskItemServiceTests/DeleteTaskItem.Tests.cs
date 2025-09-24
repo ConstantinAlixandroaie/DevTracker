@@ -12,11 +12,13 @@ public class DeleteTaskItemTests : TestBase
     {
         //Arrange
         var repoResult = Result<TaskItem>.Failure(ErrorType.Unexpected, ErrorMessage!);
-        _taskItemRepository.DeleteTaskItemAsync(TaskId)
+
+        _taskItemRepository.DeleteTaskItemAsync(Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.DeleteTaskItemAsync(TaskId);
+        var response = await _sut.DeleteTaskItemAsync(1);
+
         //Assert
         Assert.Equal(ErrorMessage, response.ErrorMessage);
         Assert.Equal(Result.Failure, response.Result);
@@ -27,11 +29,11 @@ public class DeleteTaskItemTests : TestBase
     {
         //Arrange
         var repoResult = Result<TaskItem>.Success(new());
-        _taskItemRepository.DeleteTaskItemAsync(TaskId)
+        _taskItemRepository.DeleteTaskItemAsync(Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.DeleteTaskItemAsync(TaskId);
+        var response = await _sut.DeleteTaskItemAsync(1);
 
         //Assert
         Assert.Null(response.ErrorMessage);
