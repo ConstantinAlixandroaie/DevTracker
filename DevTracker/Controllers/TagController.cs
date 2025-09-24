@@ -2,8 +2,6 @@
 using DevTracker.Application.Interfaces;
 using DevTracker.Contracts;
 using DevTracker.Contracts.Requests.Tags;
-using DevTracker.Core;
-using DevTracker.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

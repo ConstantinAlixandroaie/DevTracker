@@ -17,7 +17,7 @@ public class GetTagTests : TestBase
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.GetTag(1);
+        var response = await _sut.GetTagAsync(1);
 
         //Assert
         Assert.Equal(errorMessage, response.ErrorMessage);
@@ -31,7 +31,7 @@ public class GetTagTests : TestBase
         _tagRepo.GetTagAsync(Arg.Any<long>())
             .Returns(Task.FromResult(repoResult));
         //Act
-        var response = await _sut.GetTag(1);
+        var response = await _sut.GetTagAsync(1);
 
         //Assert
         Assert.Null(response.ErrorMessage);
