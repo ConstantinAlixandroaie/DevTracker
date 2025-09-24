@@ -18,7 +18,7 @@ public class AddNoteTests : TestBase
 
         var repoResult = Result<Note>.Failure(ErrorType.Validation, ErrorMessage!);
 
-        _noteRepository.AddNoteAsync(Arg.Any<Note>())
+        _noteRepository.AddNoteAsync(Arg.Any<long>(), Arg.Any<long>(), Arg.Any<string>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
@@ -39,7 +39,7 @@ public class AddNoteTests : TestBase
 
         var repoResult = Result<Note>.Failure(ErrorType.Validation, ErrorMessage!);
 
-        _noteRepository.AddNoteAsync(Arg.Any<Note>())
+        _noteRepository.AddNoteAsync(Arg.Any<long>(), Arg.Any<long>(), Arg.Any<string>())
             .Returns(Task.FromResult(repoResult));
 
         //Act
@@ -58,7 +58,7 @@ public class AddNoteTests : TestBase
         Setup(noteContent: noteContent);
         var repoResult = Result<Note>.Success(new Note());
 
-        _noteRepository.AddNoteAsync(Arg.Any<Note>())
+        _noteRepository.AddNoteAsync(Arg.Any<long>(), Arg.Any<long>(), Arg.Any<string>())
           .Returns(Task.FromResult(repoResult));
 
         //Act

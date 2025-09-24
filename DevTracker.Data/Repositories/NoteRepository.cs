@@ -98,7 +98,6 @@ public class NoteRepository : BaseRepository, INoteRepository
 
         note.Content = content;
         note.UpdatedAt = DateTime.UtcNow;
-        note.UpdatedById = userId;
 
         try
         {
