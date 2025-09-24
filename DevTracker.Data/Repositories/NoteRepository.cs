@@ -12,15 +12,22 @@ public class NoteRepository : BaseRepository, INoteRepository
     {
     }
 
-    public async Task<Result<Note>> AddNoteAsync(Note note)
+    public async Task<Result<Note>> AddNoteAsync(long userId, long taskItemId, string noteContent)
     {
-        var taskItem = _ctx.TaskItems.AsNoTracking().FirstOrDefault(taskItem => taskItem.Id == note.TaskItemId);
+        var taskItem = _ctx.TaskItems.AsNoTracking().FirstOrDefault(taskItem => taskItem.Id == taskItemId);
 
         if (taskItem == null)
         {
             _logger.LogError("The task does not exist.");
             return Result<Note>.Failure(ErrorType.NotFound, "Task not Found.");
         }
+
+        var note = new Note
+        {
+            Content=noteContent,
+            TaskItemId=taskItemId,
+            CreatedById=userId
+        };
 
         try
         {
