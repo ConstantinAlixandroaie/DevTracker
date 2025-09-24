@@ -18,7 +18,7 @@ public class UpdateTagTests : TestBase
             .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.UpdateTag(new UpdateTagRequest { TagId = 1, Name = "name", Colour = "colour" });
+        var response = await _sut.UpdateTagAsync(new UpdateTagRequest { TagId = 1, Name = "name", Colour = "colour" });
 
         //Assert
         Assert.Equal(errorMessage, response.ErrorMessage);
@@ -33,7 +33,7 @@ public class UpdateTagTests : TestBase
              .Returns(Task.FromResult(repoResult));
 
         //Act
-        var response = await _sut.UpdateTag(new UpdateTagRequest { TagId = 1, Name = "name", Colour = "colour" });
+        var response = await _sut.UpdateTagAsync(new UpdateTagRequest { TagId = 1, Name = "name", Colour = "colour" });
 
         //Assert
         Assert.Null(response.ErrorMessage);

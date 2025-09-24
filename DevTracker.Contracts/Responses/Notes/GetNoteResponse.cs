@@ -10,5 +10,4 @@ public class GetNoteResponse : Response
         Notes = notes;
     }
     public static GetNoteResponse Success(Result result, IEnumerable<Note>? notes) => new(result, notes, null);
-    public static GetNoteResponse Failure(Result result, string? error) => new(result, null, error);
 }
