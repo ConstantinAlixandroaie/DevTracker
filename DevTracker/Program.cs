@@ -11,7 +11,7 @@ using System.Text.Json.Serialization;
 
 namespace DevTracker.API;
 
-public static class Program
+public class Program
 {
     public static void Main(string[] args)
     {

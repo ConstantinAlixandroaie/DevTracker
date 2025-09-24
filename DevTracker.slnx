@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/DevTracker.Tests/">
+    <Project Path="DevTracker.Integration.Tests/DevTracker.Integration.Tests.csproj" Id="182f619b-d129-4fc8-a146-8d0040a91b3d" />
     <Project Path="DevTracker.Tests/DevTracker.Application.Tests.csproj" />
   </Folder>
   <Project Path="DevTracker.Application/DevTracker.Application.csproj" />
