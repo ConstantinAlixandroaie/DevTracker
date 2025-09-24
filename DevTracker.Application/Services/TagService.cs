@@ -39,7 +39,7 @@ public class TagService : ITagService
         return new DeleteTagResponse(Result.Success);
     }
 
-    public async Task<Response> GetTag(long id)
+    public async Task<Response> GetTagAsync(long id)
     {
         var result = await _tagRepo.GetTagAsync(id);
         if (!result.IsSuccess)
@@ -51,7 +51,7 @@ public class TagService : ITagService
         return new GetTagResponse(Result.Success, resultValue);
     }
 
-    public async Task<Response> GetTags()
+    public async Task<Response> GetTagsAsync()
     {
         var result = await _tagRepo.GetTagsAsync();
 
@@ -64,7 +64,7 @@ public class TagService : ITagService
         return new GetTagsResponse(Result.Success, resultValue);
     }
 
-    public async Task<Response> UpdateTag(UpdateTagRequest request)
+    public async Task<Response> UpdateTagAsync(UpdateTagRequest request)
     {
         var result = await _tagRepo.UpdateTagAsync(request.TagId, request.Name, request.Colour);
         if (!result.IsSuccess)

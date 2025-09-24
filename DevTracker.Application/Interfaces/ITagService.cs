@@ -5,9 +5,9 @@ namespace DevTracker.Application.Interfaces;
 
 public interface ITagService
 {
-    Task<Response> GetTag(long id);
-    Task<Response> GetTags();
+    Task<Response> GetTagAsync(long id);
+    Task<Response> GetTagsAsync();
     Task<Response> CreateTagAsync(CreateTagRequest request);
-    Task<Response> UpdateTag(UpdateTagRequest request);
+    Task<Response> UpdateTagAsync(UpdateTagRequest request);
     Task<Response> DeleteTagAsync(long id);
 }

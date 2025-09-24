@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DevTracker.API.Extensions;
+using DevTracker.Application.Interfaces;
+using DevTracker.Contracts;
+using DevTracker.Contracts.Requests.Tags;
+using DevTracker.Core;
+using DevTracker.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevTracker.API.Controllers;
@@ -11,41 +17,79 @@ namespace DevTracker.API.Controllers;
 [Authorize]
 public class TagController : ControllerBase
 {
-    [HttpGet]
-    public async Task<IActionResult> GetTags()
+    private readonly ITagService _tagService;
+    public TagController(ITagService tagService)
     {
-        return Ok();
+        _tagService = tagService;
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetTagsAsync()
+    {
+        var response = await _tagService.GetTagsAsync();
+        if (response.Result != Result.Success)
+        {
+            return NotFound(response.ErrorMessage);
+        }
+
+        return Ok(response);
     }
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<IActionResult> GetTag(long id)
+    public async Task<IActionResult> GetTagAsync(long id)
     {
-        return Ok();
+        var response = await _tagService.GetTagAsync(id);
+        if (response.Result != Result.Success)
+        {
+            return NotFound(response.ErrorMessage);
+        }
+
+        return Ok(response);
     }
 
     [HttpPost]
     [Route("create")]
-    public async Task<IActionResult> CreateTag()
+    public async Task<IActionResult> CreateTagAsync([FromBody] CreateTagRequest request)
     {
-        //create tag with name and colour
-        //validate colour to be hex code
-        return Ok();
+        var userId = User.GetUserId();
+        if (userId is null)
+        {
+            return BadRequest();
+        }
+
+        request.UserId = (long)userId;
+
+        var response = await _tagService.CreateTagAsync(request);
+        if (response.Result != Result.Success)
+        {
+            return Conflict(response.ErrorMessage);
+        }
+
+        return Ok(response);
     }
 
     [HttpPut]
     [Route("update")]
-    public async Task<IActionResult> UpdateTag()
+    public async Task<IActionResult> UpdateTagAsync([FromBody] UpdateTagRequest request)
     {
-        //Update tag with name and/or colour
-        //validate colour to be hex code
-        return Ok();
+        var response = await _tagService.UpdateTagAsync(request);
+        if (response.Result != Result.Success)
+        {
+            return BadRequest(response.ErrorMessage);
+        }
+        return Ok(response);
     }
 
     [HttpDelete]
     [Route("delete/{id}")]
-    public async Task<IActionResult> DeleteTag(long id)
+    public async Task<IActionResult> DeleteTagAsync(long id)
     {
-        return Ok();
+        var response = await _tagService.DeleteTagAsync(id);
+
+        if (response.Result != Result.Success)
+        {
+            return NotFound(response.ErrorMessage);
+        }
+        return Ok(response);
     }
 }
