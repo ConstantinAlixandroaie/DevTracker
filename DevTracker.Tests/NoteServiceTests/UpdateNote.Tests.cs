@@ -24,7 +24,6 @@ public class UpdateNoteTests : TestBase
         //Assert
         Assert.Equal(ErrorMessage, response.ErrorMessage);
         Assert.Equal(Result.Failure, response.Result);
-        Assert.Null(response.Note);
     }
 
     [Fact]
@@ -44,6 +43,5 @@ public class UpdateNoteTests : TestBase
         //Assert
         Assert.Null(response.ErrorMessage);
         Assert.Equal(Result.Success, response.Result);
-        Assert.Equal(NoteContent, response.Note.Content);
     }
 }

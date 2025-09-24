@@ -16,7 +16,7 @@ public class NoteService : INoteService
     }
 
     /// <inheritdoc />
-    public async Task<AddNoteReponse> AddNoteAsync(AddNoteRequest request)
+    public async Task<Response> AddNoteAsync(AddNoteRequest request)
     {
         var result = await _noteRepo.AddNoteAsync(request.UserId, request.TaskItemId, request.Content);
 
@@ -29,38 +29,38 @@ public class NoteService : INoteService
     }
 
     /// <inheritdoc />
-    public async Task<DeleteNoteResponse> DeleteNoteAsync(long noteId)
+    public async Task<Response> DeleteNoteAsync(long noteId)
     {
         var result = await _noteRepo.DeleteNoteAsync(noteId);
         if (!result.IsSuccess)
         {
-            return new DeleteNoteResponse(Result.NotFound, result.Error);
+            return Response.Failure(Result.NotFound, result.Error);
         }
 
         return new DeleteNoteResponse(Result.Success);
     }
 
     /// <inheritdoc />
-    public async Task<GetNoteResponse> GetNotesAsync(long taskId)
+    public async Task<Response> GetNotesAsync(long taskId)
     {
         var result = await _noteRepo.GetNotesAsync(taskId);
 
         if (!result.IsSuccess)
         {
-            return GetNoteResponse.Failure(Result.Failure, result.Error);
+            return Response.Failure(Result.Failure, result.Error);
         }
 
         return GetNoteResponse.Success(Result.Success, result.Value);
     }
 
     /// <inheritdoc />
-    public async Task<UpdateNoteReponse> UpdateNoteAsync(UpdateNoteRequest request)
+    public async Task<Response> UpdateNoteAsync(UpdateNoteRequest request)
     {
         var result = await _noteRepo.UpdateNoteAsync(request.NoteId, request.Content, request.UserId);
 
         if (!result.IsSuccess)
         {
-            return UpdateNoteReponse.Failure(Result.Failure, result.Error);
+            return Response.Failure(Result.Failure, result.Error);
         }
 
         return UpdateNoteReponse.Success(Result.Success, result.Value);

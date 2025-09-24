@@ -39,7 +39,7 @@ public class NoteController : ControllerBase
             return NotFound(response.ErrorMessage);
         }
 
-        return Ok(response.Notes);
+        return Ok(response);
     }
 
     /// <summary>
