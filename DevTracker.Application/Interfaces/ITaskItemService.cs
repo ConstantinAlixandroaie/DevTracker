@@ -38,5 +38,5 @@ public interface ITaskItemService
     /// and task status</param>
     /// <returns> A task result that contains a <see cref="UpdateTaskItemResponse"/>
     /// with the result of the update.</returns>
-    Task<UpdateTaskItemResponse> UpdateTaskStatusAsync(UpdateTaskItemRequest request);
+    Task<UpdateTaskItemResponse> UpdateTaskAsync(UpdateTaskItemRequest request);
 }

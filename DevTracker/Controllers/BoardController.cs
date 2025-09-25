@@ -32,10 +32,12 @@ public class BoardController : ControllerBase
         if (userId is not null)
         {
             var response = await _boardService.GetBoardsByUserIdAsync((long)userId);
-            return Ok(response);
+            if (response.Result != Result.Success)
+            {
+                return NotFound(response.ErrorMessage);
+            }
         }
-
-        return BadRequest();
+        return Ok();
     }
     /// <summary>
     /// Gets the specified board.
@@ -50,7 +52,7 @@ public class BoardController : ControllerBase
         var response = await _boardService.GetBoardAsync(id);
         if (response.Result != Result.Success)
         {
-            return NotFound();
+            return NotFound(response.ErrorMessage);
         }
 
         return Ok(response);
@@ -77,7 +79,25 @@ public class BoardController : ControllerBase
             var response = await _boardService.CreateBoardAsync(request);
             if (response.Result == Result.Conflict)
             {
-                return Conflict();
+                return Conflict(response.ErrorMessage);
+            }
+
+            return Ok(response);
+        }
+
+        return BadRequest();
+    }
+    [HttpPatch]
+    [Route("update")]
+    public async Task<IActionResult> UpdateBoardAsync([FromBody] UpdateBoardRequest request)
+    {
+        var userId = User.GetUserId();
+        if (userId is not null)
+        {
+            var response = await _boardService.UpdateBoardAsync(request);
+            if (response.Result != Result.Success)
+            {
+                return BadRequest(response.ErrorMessage);
             }
 
             return Ok(response);
@@ -98,7 +118,7 @@ public class BoardController : ControllerBase
         var response = await _boardService.DeleteBoardAsync(boardId);
         if (response.Result == Result.Conflict)
         {
-            return Conflict();
+            return Conflict(response.ErrorMessage);
         }
 
         return Ok(response);

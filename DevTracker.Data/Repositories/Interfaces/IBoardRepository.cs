@@ -9,4 +9,5 @@ public interface IBoardRepository
     Task<Result<Board>> CreateBoardAsync(string boardTitle, long userId);
     Task<Result<Board>> DeleteBoardByIdAsync(long boardId);
     Task<Result<Board>> GetBoardAsync(long boardId);
+    Task<Result<Board>> UpdateBoardAsync(long boardId,string? title);
 }

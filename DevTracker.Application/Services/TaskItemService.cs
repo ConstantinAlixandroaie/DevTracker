@@ -3,6 +3,7 @@ using DevTracker.Contracts;
 using DevTracker.Contracts.Requests.TaskItems;
 using DevTracker.Contracts.Responses.TaskItems;
 using DevTracker.Core;
+using DevTracker.Data.Records;
 using DevTracker.Data.Repositories.Interfaces;
 
 namespace DevTracker.Application.Services;
@@ -57,9 +58,12 @@ public class TaskItemService : ITaskItemService
     }
 
     /// <inheritdoc />
-    public async Task<UpdateTaskItemResponse> UpdateTaskStatusAsync(UpdateTaskItemRequest request)
+    public async Task<UpdateTaskItemResponse> UpdateTaskAsync(UpdateTaskItemRequest request)
     {
-        var result = await _taskItemRepo.UpdateTaskItemStatusAsync(request.TaskId, request.Status);
+        UpdateTaskItem updateRequest = new UpdateTaskItem
+        (request.TaskId, request.Title, request.Status);
+
+        var result = await _taskItemRepo.UpdateTaskItemAsync(updateRequest);
 
         if (result.ErrorType == ErrorType.NotFound)
         {

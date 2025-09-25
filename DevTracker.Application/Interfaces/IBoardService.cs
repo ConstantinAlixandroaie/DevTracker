@@ -9,4 +9,5 @@ public interface IBoardService
     Task<Response> CreateBoardAsync(CreateBoardRequest request);
     Task<Response> DeleteBoardAsync(long boardId);
     Task<Response> GetBoardAsync(string id);
+    Task<Response> UpdateBoardAsync(UpdateBoardRequest request);
 }
