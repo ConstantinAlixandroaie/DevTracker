@@ -16,7 +16,7 @@ public class BoardControllerTests : BaseTest
     }
 
     [Fact]
-    public async Task GetBoardsAsync_WithoutToken_ExpectUnauthorized()
+    public async Task GetBoardsAsync_WithAuthenticatedUserAndNoBoards_ExpectEmptyResponse()
     {
         //Arrange
         await AuthenticateAsync();
@@ -29,7 +29,7 @@ public class BoardControllerTests : BaseTest
     }
 
     [Fact]
-    public async Task GetBoardsAsync_WithAuthenticatedUserAndNoBoards_ExpectEmptyResponse()
+    public async Task GetBoardsAsync_WithoutAuthorizationToken_ExpectUnauthorized()
     {
         //Arrange
 
@@ -72,23 +72,29 @@ public class BoardControllerTests : BaseTest
     {
         //Arrange
         await AuthenticateAsync();
-        var boardTitle = "TestBoard Title";
-        var createResponse = await HttpClient.PostAsJsonAsync($"/api/v1/Board/CreateBoard", boardTitle, CancellationToken);
+        var seed = await SeedEntityAsync(new Board
+        {
+            Title = "TestBoard Title",
+            CreatedById = 1,
+            OwnerId = 1
+        });
 
         //Act
         var response = await HttpClient.GetAsync($"/api/v1/Board/1", CancellationToken);
-        var jsonContent = await response.Content.ReadAsStringAsync();
-        var jobject = JObject.Parse(jsonContent);
-        var boardjson = jobject["board"].ToString();
-        var board = JsonConvert.DeserializeObject<Board>(boardjson);
+        Board? board = await ParseObjectFromResponseAsync<Board>(response,"board");
 
         //Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Equal(boardTitle, board.Title);
-        Assert.Equal(1, board.CreatedBy.Id);
-        Assert.Equal(1, board.Owner.Id);
+        Assert.Equal(seed.Title, board.Title);
+        Assert.Equal(seed.CreatedById, board.CreatedBy.Id);
+        Assert.Equal(seed.OwnerId, board.Owner.Id);
+    }
 
-        //cleanup
-        var deleteResponse = await HttpClient.DeleteAsync("/api/v1/Board/DeleteBoard?boardId=1", CancellationToken);
+    private static async Task<T>ParseObjectFromResponseAsync<T>(HttpResponseMessage response,string propertyName) where T:class
+    {
+        var jsonContent = await response.Content.ReadAsStringAsync();
+        var jobject = JObject.Parse(jsonContent);
+        var objectJson = jobject[propertyName].ToString();
+        return JsonConvert.DeserializeObject<T>(objectJson);
     }
 }
