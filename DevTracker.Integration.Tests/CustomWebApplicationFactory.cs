@@ -13,25 +13,64 @@ public class CustomWebApplicationFactory<TProgram>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        builder.UseEnvironment("Testing");
+        builder.UseSetting("ConnectionStrings:DefaultConnection", "InMemory");
+
         builder.ConfigureServices(services =>
         {
-            builder.UseSetting("ConnectionStrings:DefaultConnection", "InMemory");
+            var newServices = new ServiceCollection();
 
-            builder.ConfigureServices(services =>
+            foreach (var service in services)
             {
-                // Remove the SQL Server DbContext registration
-                services.RemoveAll(typeof(DbContextOptions<DevTrackerContext>));
-                services.RemoveAll(typeof(DevTrackerContext));
-                services.RemoveAll<DbConnection>();
+                if (IsEntityFrameworkService(service) && !IsIdentityService(service))
+                    continue;
 
-                // Add InMemory database
-                services.AddDbContext<DevTrackerContext>(options =>
-                {
-                    options.UseInMemoryDatabase($"TestDb_{Guid.NewGuid()}");
-                });
+                newServices.Add(service);
+            }
+
+            newServices.AddDbContext<DevTrackerContext>(options =>
+            {
+                options.UseInMemoryDatabase($"TestDb");
             });
 
-            builder.UseEnvironment("Testing");
+            services.Clear();
+            foreach (var service in newServices)
+            {
+                services.Add(service);
+            }
         });
+    }
+    private static bool IsEntityFrameworkService(ServiceDescriptor service)
+    {
+        if (service.ServiceType == typeof(DevTrackerContext) ||
+            service.ServiceType == typeof(DbContextOptions<DevTrackerContext>) ||
+            service.ServiceType == typeof(DbContextOptions) ||
+            service.ServiceType == typeof(DbConnection))
+            return true;
+
+        if (service.ServiceType.IsGenericType &&
+            service.ServiceType.GetGenericTypeDefinition() == typeof(DbContextOptions<>))
+            return true;
+
+        if (service.ServiceType.Namespace?.StartsWith("Microsoft.EntityFrameworkCore") == true)
+            return true;
+
+        if (service.ImplementationType?.Assembly.FullName?.Contains("EntityFrameworkCore") == true)
+            return true;
+
+        if (service.ServiceType.FullName?.Contains("EntityFrameworkCore") == true)
+            return true;
+
+        return false;
+    }
+    private static bool IsIdentityService(ServiceDescriptor service)
+    {
+        // Preserve all Identity-related services
+        return service.ServiceType.FullName?.Contains("Microsoft.AspNetCore.Identity") == true ||
+               service.ServiceType.FullName?.Contains("IUserStore") == true ||
+               service.ServiceType.FullName?.Contains("IRoleStore") == true ||
+               service.ServiceType.FullName?.Contains("UserManager") == true ||
+               service.ServiceType.FullName?.Contains("RoleManager") == true ||
+               service.ServiceType.FullName?.Contains("SignInManager") == true;
     }
 }

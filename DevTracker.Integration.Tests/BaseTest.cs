@@ -2,6 +2,7 @@
 using DevTracker.Data;
 using DevTracker.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -13,6 +14,7 @@ public class BaseTest : IClassFixture<CustomWebApplicationFactory<Program>>, IAs
 {
     protected readonly HttpClient HttpClient;
     protected readonly CustomWebApplicationFactory<Program> Factory;
+    private readonly List<object> _seededEntities = new();
 
     protected const string TestUserEmail = "testuser@example.com";
     protected const string TestUserPassword = "Pass123$";
@@ -29,9 +31,17 @@ public class BaseTest : IClassFixture<CustomWebApplicationFactory<Program>>, IAs
         await SeedTestUserAsync();
     }
 
-    public ValueTask DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
-        return ValueTask.CompletedTask;
+        using var scope = Factory.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<DevTrackerContext>();
+
+        foreach (var entity in _seededEntities)
+        {
+            context.Remove(entity);
+        }
+
+        await context.SaveChangesAsync();
     }
 
     protected async Task SeedTestUserAsync()
@@ -65,10 +75,13 @@ public class BaseTest : IClassFixture<CustomWebApplicationFactory<Program>>, IAs
         {
             throw new InvalidOperationException($"Failed to create test user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         }
+
+        var users = await context.Users.ToListAsync();
     }
 
     protected async Task<string> GetAuthTokenAsync()
     {
+
         var loginData = new
         {
             email = TestUserEmail,
@@ -101,6 +114,7 @@ public class BaseTest : IClassFixture<CustomWebApplicationFactory<Program>>, IAs
 
         context.Set<T>().Add(entity);
         await context.SaveChangesAsync();
+        _seededEntities.Add(entity);
         return entity;
     }
 }
