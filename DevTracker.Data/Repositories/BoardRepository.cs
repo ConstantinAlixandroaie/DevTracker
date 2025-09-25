@@ -8,7 +8,7 @@ namespace DevTracker.Data.Repositories;
 
 public class BoardRepository : BaseRepository, IBoardRepository
 {
-    public BoardRepository(DevTrackerContext ctx, ILogger<BaseRepository> logger) : base(ctx, logger)
+    public BoardRepository(DevTrackerContext ctx, ILogger<BoardRepository> logger) : base(ctx, logger)
     {
     }
 

@@ -48,7 +48,7 @@ public class BoardController : ControllerBase
     public async Task<IActionResult> GetBoardByIdAsync(string id)
     {
         var response = await _boardService.GetBoardAsync(id);
-        if (response.Result == Result.Failure)
+        if (response.Result != Result.Success)
         {
             return NotFound();
         }
