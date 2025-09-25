@@ -79,10 +79,10 @@ public class BoardRepository : BaseRepository, IBoardRepository
     public async Task<Result<Board>> GetBoardAsync(long boardId)
     {
         var board = await _ctx.Boards
-            .Include(x=>x.Owner)
-            .Include(x=>x.CreatedBy)
-            .Include(x=>x.Users)
-            .Include(x=>x.TaskItems)
+            .Include(x => x.Owner)
+            .Include(x => x.CreatedBy)
+            .Include(x => x.Users)
+            .Include(x => x.TaskItems)
             .AsNoTracking()
             .FirstOrDefaultAsync(board => board.Id == boardId);
 
@@ -93,5 +93,31 @@ public class BoardRepository : BaseRepository, IBoardRepository
         }
 
         return Result<Board>.Success(board);
+    }
+
+    public async Task<Result<Board>> UpdateBoardAsync(long boardId, string title)
+    {
+        var board = await _ctx.Boards.FirstOrDefaultAsync(x => x.Id == boardId);
+        if (board is null)
+        {
+            _logger.LogError("The task does not exist.");
+            return Result<Board>.Failure(ErrorType.NotFound, "The task does not exist.");
+        }
+        if (board.Title == title)
+        {
+            return Result<Board>.Failure(ErrorType.Conflict, "The title has not changed");
+        }
+
+        board.Title = title;
+
+        try
+        {
+            await _ctx.SaveChangesAsync();
+            return Result<Board>.Success(board);
+        }
+        catch (Exception ex)
+        {
+            return Result<Board>.Failure(ErrorType.Unexpected, ex.Message);
+        }
     }
 }

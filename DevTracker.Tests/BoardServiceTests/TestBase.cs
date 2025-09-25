@@ -11,6 +11,7 @@ public class TestBase : IDisposable
     protected IBoardRepository _boardRepo = Substitute.For<IBoardRepository>();
     protected IBoardService _sut;
     protected CreateBoardRequest CreateBoardRequest = new();
+    protected UpdateBoardRequest UpdateBoardRequest = new() { BoardId =1,Title="TestBoard Update"};
 
     public TestBase()
     {

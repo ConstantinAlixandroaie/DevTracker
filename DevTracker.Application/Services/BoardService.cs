@@ -2,6 +2,7 @@
 using DevTracker.Contracts;
 using DevTracker.Contracts.Requests.Boards;
 using DevTracker.Contracts.Responses.Boards;
+using DevTracker.Core;
 using DevTracker.Data.Repositories.Interfaces;
 using DevTracker.Domain.Boards;
 using Mapster;
@@ -63,6 +64,24 @@ public class BoardService : IBoardService
         if (!result.IsSuccess)
         {
             return Response.Failure(Result.NotFound, result.Error);
+        }
+
+        var response = result.Value.Adapt<BoardProjection>();
+
+        return new GetBoardResponse(Result.Success, response);
+    }
+
+    public async Task<Response> UpdateBoardAsync(UpdateBoardRequest request)
+    {
+        if (request.Title is null)
+        {
+            return Response.Failure(Result.Failure, "Nothing to Update");
+        }
+        var result = await _boardRepo.UpdateBoardAsync(request.BoardId, request.Title);
+
+        if (!result.IsSuccess)
+        {
+            return Response.Failure(Result.Conflict, result.Error);
         }
 
         var response = result.Value.Adapt<BoardProjection>();
