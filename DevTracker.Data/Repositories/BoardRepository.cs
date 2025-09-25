@@ -95,7 +95,7 @@ public class BoardRepository : BaseRepository, IBoardRepository
         return Result<Board>.Success(board);
     }
 
-    public async Task<Result<Board>> UpdateBoardAsync(long boardId, string title)
+    public async Task<Result<Board>> UpdateBoardAsync(long boardId, string? title)
     {
         var board = await _ctx.Boards.FirstOrDefaultAsync(x => x.Id == boardId);
         if (board is null)
@@ -103,12 +103,11 @@ public class BoardRepository : BaseRepository, IBoardRepository
             _logger.LogError("The task does not exist.");
             return Result<Board>.Failure(ErrorType.NotFound, "The task does not exist.");
         }
-        if (board.Title == title)
-        {
-            return Result<Board>.Failure(ErrorType.Conflict, "The title has not changed");
-        }
 
-        board.Title = title;
+        if (title is not null && board.Title != title)
+        {
+            board.Title = title;
+        }
 
         try
         {

@@ -73,10 +73,6 @@ public class BoardService : IBoardService
 
     public async Task<Response> UpdateBoardAsync(UpdateBoardRequest request)
     {
-        if (request.Title is null)
-        {
-            return Response.Failure(Result.Failure, "Nothing to Update");
-        }
         var result = await _boardRepo.UpdateBoardAsync(request.BoardId, request.Title);
 
         if (!result.IsSuccess)
