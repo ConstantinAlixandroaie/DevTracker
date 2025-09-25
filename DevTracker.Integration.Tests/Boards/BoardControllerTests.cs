@@ -3,7 +3,6 @@ using DevTracker.Data.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
-using System.Net.Http.Json;
 
 namespace DevTracker.Integration.Tests.Boards;
 
@@ -23,9 +22,46 @@ public class BoardControllerTests : BaseTest
 
         //Act
         var response = await HttpClient.GetAsync("/api/v1/Board", CancellationToken);
+        var boards = await ParseObjectFromResponseAsync<List<Board>>(response, "boards");
 
         //Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Empty(boards);
+    }
+
+
+    [Fact]
+    public async Task GetBoardsAsync_WithBoardsSeed_ExpectSuccess()
+    {
+        //Arrange
+        await AuthenticateAsync();
+        List<Board> seeds = [
+            new Board
+        {
+            Title = "TestBoard Title 1",
+            CreatedById = 1,
+            OwnerId = 1
+        } ,new Board
+        {
+            Title = "TestBoard Title 2",
+            CreatedById = 1,
+            OwnerId = 1
+        }];
+
+        foreach (var seed in seeds)
+        {
+            await SeedEntityAsync(seed);
+        }
+
+        //Act
+        var response = await HttpClient.GetAsync("/api/v1/Board", CancellationToken);
+        var boards = await ParseObjectFromResponseAsync<List<Board>>(response, "boards");
+
+        //Assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(seeds.Count, boards.Count);
+        Assert.Equal(seeds[0].Title, boards[0].Title);
+        Assert.Equal(seeds[1].Title, boards[1].Title);
     }
 
     [Fact]
@@ -81,7 +117,7 @@ public class BoardControllerTests : BaseTest
 
         //Act
         var response = await HttpClient.GetAsync($"/api/v1/Board/1", CancellationToken);
-        Board? board = await ParseObjectFromResponseAsync<Board>(response,"board");
+        Board? board = await ParseObjectFromResponseAsync<Board>(response, "board");
 
         //Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -90,7 +126,7 @@ public class BoardControllerTests : BaseTest
         Assert.Equal(seed.OwnerId, board.Owner.Id);
     }
 
-    private static async Task<T>ParseObjectFromResponseAsync<T>(HttpResponseMessage response,string propertyName) where T:class
+    private static async Task<T> ParseObjectFromResponseAsync<T>(HttpResponseMessage response, string propertyName) where T : class
     {
         var jsonContent = await response.Content.ReadAsStringAsync();
         var jobject = JObject.Parse(jsonContent);
