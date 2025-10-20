@@ -1,6 +1,7 @@
 ﻿using DevTracker.Core;
 using DevTracker.Data.Enums;
 using DevTracker.Data.Models;
+using DevTracker.Data.Records;
 using DevTracker.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -68,29 +69,38 @@ public class TaskItemRepository(DevTrackerContext ctx, ILogger<BaseRepository> l
         }
     }
 
-    public async Task<Result<TaskItem>> UpdateTaskItemStatusAsync(long taskItemId, Status status)
+    public async Task<Result<TaskItem>> UpdateTaskItemAsync(UpdateTaskItem updateRequest)
     {
-        var taskItem = _ctx.TaskItems.FirstOrDefault(item => item.Id == taskItemId);
-
+        var taskItem = _ctx.TaskItems.FirstOrDefault(item => item.Id == updateRequest.TaskId);
+        var flag = false;
         if (taskItem is null)
         {
             _logger.LogError("The task does not exist.");
             return Result<TaskItem>.Failure(ErrorType.NotFound, "Task Item not found");
         }
 
-        if (taskItem.Status == status)
+        if (updateRequest.Status is not null && taskItem.Status != updateRequest.Status)
         {
-            _logger.LogError("Update status did not change status value.");
-            return Result<TaskItem>.Failure(ErrorType.Conflict, "Task Item Status not changed.");
+            taskItem.Status = (Status)updateRequest.Status;
+            flag = true;
+
         }
 
-        taskItem.Status = status;
-        taskItem.UpdatedAt = DateTime.Now;
+        if (updateRequest.Title is not null && updateRequest.Title != taskItem.Title)
+        {
+            taskItem.Title = updateRequest.Title;
+            flag = true;
+        }
+
+        if (flag)
+        {
+            taskItem.UpdatedAt = DateTime.Now;
+        }
 
         try
         {
             await _ctx.SaveChangesAsync();
-            _logger.LogInformation($"Task item with {taskItem.Id} has been updated to {status}!");
+            _logger.LogInformation($"Task item with {taskItem.Id} has been updated to {updateRequest.Status}!");
             return Result<TaskItem>.Success(taskItem);
         }
         catch (DbUpdateException ex)

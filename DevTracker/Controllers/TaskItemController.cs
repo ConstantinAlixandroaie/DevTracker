@@ -80,10 +80,10 @@ public class TaskItemController : ControllerBase
     /// </returns>
     [HttpPut]
     [Route("UpdateStatus")]
-    public async Task<IActionResult> UpdateTaskStatusAsync([FromBody] UpdateTaskItemRequest updateTaskItemRequest)
+    public async Task<IActionResult> UpdateTaskAsync([FromBody] UpdateTaskItemRequest updateTaskItemRequest)
     {
 
-        var response = await _taskItemService.UpdateTaskStatusAsync(updateTaskItemRequest);
+        var response = await _taskItemService.UpdateTaskAsync(updateTaskItemRequest);
 
         if (response.Result == Result.Failure)
         {
