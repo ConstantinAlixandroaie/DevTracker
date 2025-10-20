@@ -84,10 +84,16 @@ public class NoteRepository : BaseRepository, INoteRepository
     public async Task<Result<Note>> UpdateNoteAsync(long noteId, string content, long userId)
     {
         var note = _ctx.Notes.FirstOrDefault(note => note.Id == noteId);
+
         if (note == null)
         {
             _logger.LogError("Note not found.");
             return Result<Note>.Failure(ErrorType.NotFound, "Note not found.");
+        }
+        if(note.CreatedById != userId)
+        {
+            _logger.LogError("User cannot edit this note.");
+            return Result<Note>.Failure(ErrorType.Validation, "User cannot edit this note.");
         }
 
         if (note.Content == content)
@@ -102,7 +108,6 @@ public class NoteRepository : BaseRepository, INoteRepository
         try
         {
             await _ctx.SaveChangesAsync();
-            _logger.LogInformation($"Note with id {note.Id} succesfully updated.");
             return Result<Note>.Success(note);
         }
         catch (DbUpdateException ex)
